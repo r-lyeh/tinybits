@@ -17,5 +17,6 @@
 |[tinyprint.cc](tinyprint.cc)|C++|Comma-based printer|
 |[tinypulse.c](tinypulse.c)|C|Digital pulses|
 |[tinytty.c](tinytty.c)|C|Console clamper|
+|[tinyroman.cc](tinyroman.cc)|C++|Integer to roman literals|
 |[tinyunit.cc](tinyunit.cc)|C++|Unit-testing|
 |[tinyvar.cc](tinyvar.cc)|C++|Variant|
