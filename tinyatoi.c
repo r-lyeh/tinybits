@@ -1,4 +1,4 @@
-// Tiny atoi. rlyeh, public domain
+// Tiny atoi() replacement. rlyeh, public domain
 
 int atoi( const char *cstr ) {
     int integer = 0, neg = 1;

@@ -1,18 +1,15 @@
-// Tiny logger. rlyeh, public domain
+// Tiny session logger. rlyeh, public domain
 #include <stdio.h>
 
 #ifdef SHIPPING
-
-struct Logger {
-    Logger() {
+struct logger {
+    logger() {
         fclose(stdout);
     }
 };
-
 #else
-
-struct Logger {
-    Logger() {
+struct logger {
+    logger() {
 #       if   defined(PSVITA)
         freopen("host0://log_vita.txt", "a+t", stdout);
 #       elif defined(PS3)
@@ -28,15 +25,13 @@ struct Logger {
         puts(";; New session");
         fflush(stdout);
     }
-    ~Logger() {
+    ~logger() {
         fflush(stdout);
     }
 };
-
 #endif
 
-
 int main() {
-    Logger resident;
+    logger resident;
     puts("hello world");
 }
