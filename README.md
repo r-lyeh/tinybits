@@ -26,3 +26,4 @@
 |[tinyunit.cc](tinyunit.cc)|C++|Minimal unit-testing|
 |[tinyvar.cc](tinyvar.cc)|C++|Variant class|
 |[tinywav.c](tinywav.c)|C|Forked WAV writer|
+|[tinywtf.h](tinywtf.h)|C/C++|Portable host macros|
