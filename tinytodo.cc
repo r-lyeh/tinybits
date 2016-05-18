@@ -1,6 +1,9 @@
 // Tiny todo() static assert macro. based on code by https://github.com/andyw8/do_by
 // - rlyeh, public domain
 
+#if defined(_MSC_VER) && _MSC_VER <= 1800
+#define TODO(...) // constexpr wont work :(
+#else
 struct TODO {
     template<unsigned N>
     static constexpr unsigned DATE( const char (&DT)[N] ) {
@@ -25,6 +28,7 @@ struct TODO {
 #   define TODO(DT) \
         static_assert( TODO::CHECK(DT), "TODO date expired!" )
 };
+#endif
 
 int main() {
     TODO( "Sep 26 2015" ); // compile error here if current date >= Sep 26 2015
