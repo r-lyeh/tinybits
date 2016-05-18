@@ -1,4 +1,5 @@
 // tiny portable host macros (C/C++ language features, compilers, os, arch, tls...)
+// used to avoid #ifn/def hell.
 // - rlyeh, public domain.
 
 #ifndef $no
@@ -14,7 +15,7 @@
 #define $is             (0 v(+1))  // usage: #if $is($debug)
 #define $has(...)       $clang(__has_feature(__VA_ARGS__)) $nclang(__VA_ARGS__) // usage: #if $has(cxx_exceptions)
 
-// Text modifiers
+// Text/code modifiers
 
 #define $quote(...)     #__VA_ARGS__
 #define $comment        $no
@@ -75,10 +76,10 @@
 #endif
 
 #if $on($cl) || $on($gcc) || $on($clang)
-#   define $supported_compiler  $yes
+#   define $supported_compiler   $yes
 #   define $unsupported_compiler $no
 #else
-#   define $supported_compiler  $no
+#   define $supported_compiler   $no
 #   define $unsupported_compiler $yes
 #endif
 
@@ -114,39 +115,36 @@
 // C++ detect and version
 
 #ifdef __cplusplus
+#   define $c              $no
 #   define $cpp            $yes
 #   if (__cplusplus < 201103L && !defined(_MSC_VER)) || (defined(_MSC_VER) && (_MSC_VER < 1700)) || (defined(__GLIBCXX__) && __GLIBCXX__ < 20130322L)
-#      define $cpp11          $no
-#      define $cpp03          $yes
+#      define $cpp11       $no
+#      define $cpp03       $yes
 #   else
-#      define $cpp11          $yes
-#      define $cpp03          $no
+#      define $cpp11       $yes
+#      define $cpp03       $no
 #   endif
 #else
+#   define $c              $yes
 #   define $cpp            $no
 #   define $cpp11          $no
 #   define $cpp03          $no
 #endif
 
-#ifdef __cplusplus
-#define $c $no
-#else
-#define $c $yes
-#endif
-
 // C++ exceptions
 
-#if (defined(_HAS_EXCEPTIONS) && (_HAS_EXCEPTIONS > 0)) || \
+#if defined(__cplusplus) && ( \
+    (defined(_HAS_EXCEPTIONS) && (_HAS_EXCEPTIONS > 0)) || \
     (defined(_STLP_USE_EXCEPTIONS) && (_STLP_USE_EXCEPTIONS > 0)) || \
     (defined(HAVE_EXCEPTIONS)) || \
     (defined(__EXCEPTIONS)) || \
     (defined(_CPPUNWIND)) || \
-    ($has(cxx_exceptions)) /*(__has_feature(cxx_exceptions))*/
-#   define $throw     $yes
-#   define $telse     $no
+    ($has(cxx_exceptions)) ) /*(__has_feature(cxx_exceptions))*/
+#   define $exceptions    $yes
+#   define $nexceptions   $no
 #else
-#   define $throw     $no
-#   define $telse     $yes
+#   define $exceptions    $no
+#   define $nexceptions   $yes
 #endif
 
 // Thread Local Storage
@@ -170,43 +168,43 @@
 #endif
 
 #ifdef __linux__
-#   define $linux     $yes
-#   define $nlinux    $no
+#   define $linux        $yes
+#   define $nlinux       $no
 #else
-#   define $linux     $no
-#   define $nlinux    $yes
+#   define $linux        $no
+#   define $nlinux       $yes
 #endif
 
 #ifdef __APPLE__
-#   define $apple     $yes
-#   define $napple    $no
+#   define $apple        $yes
+#   define $napple       $no
 #else
-#   define $apple     $no
-#   define $napple    $yes
+#   define $apple        $no
+#   define $napple       $yes
 #endif
 
 #if defined(__APPLE__) && defined(TARGET_OS_MAC)
-#   define $osx       $yes
-#   define $nosx      $no
+#   define $osx          $yes
+#   define $nosx         $no
 #else
-#   define $osx       $no
-#   define $nosx      $yes
+#   define $osx          $no
+#   define $nosx         $yes
 #endif
 
 #if defined(__APPLE__) && (defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR))
-#   define $ios       $yes
-#   define $nios      $no
+#   define $ios          $yes
+#   define $nios         $no
 #else
-#   define $ios       $no
-#   define $nios      $yes
+#   define $ios          $no
+#   define $nios         $yes
 #endif
 
 #if defined(__ANDROID_API__)
-#   define $android   $yes
-#   define $nandroid  $no
+#   define $android      $yes
+#   define $nandroid     $no
 #else
-#   define $android   $no
-#   define $nandroid  $yes
+#   define $android      $no
+#   define $nandroid     $yes
 #endif
 
 #if $on($windows) || $on($apple) || $on($linux) || $on($osx) || $on($ios) || $on($android)
@@ -221,12 +219,11 @@
 
 #ifdef UNDEFINE
 #undef UNDEFINE
-#undef $tod0
-#undef $t0d0
 #undef $android
 #undef $apple
 #undef $bits32
 #undef $bits64
+#undef $c
 #undef $cl
 #undef $clang
 #undef $comment
@@ -235,6 +232,7 @@
 #undef $cpp11
 #undef $debug
 #undef $devel
+#undef $exceptions
 #undef $gcc
 #undef $has
 #undef $ios
@@ -245,6 +243,7 @@
 #undef $napple
 #undef $ncl
 #undef $nclang
+#undef $nexceptions
 #undef $ngcc
 #undef $nios
 #undef $nlinux
@@ -258,22 +257,27 @@
 #undef $release
 #undef $supported_compiler
 #undef $supported_os
-#undef $telse
-#undef $throw
 #undef $tls
 #undef $todo
 #undef $uncomment
 #undef $unlikely
 #undef $unsupported_compiler
 #undef $unsupported_os
-#undef $w4rning
 #undef $warning
 #undef $windows
 #undef $yes
+#ifdef $tod0
+#undef $tod0
+#endif
+#ifdef $t0d0
+#undef $t0d0
+#endif
+#ifdef $w4rning
+#undef $w4rning
+#endif
 #endif
 
 /*
-
 #include <stdio.h>
 int main() {
     $c(
@@ -287,10 +291,10 @@ int main() {
         $cpp11(
             puts("C++11");
         )
-        $throw(
+        $exceptions(
             puts("exceptions enabled");
         )
-        $nthrow(
+        $nexceptions(
             puts("exceptions disabled");
         )
     )
@@ -329,13 +333,8 @@ int main() {
         puts("never compiled");
     );
 
-#if $on($windows)
-    puts("windows detected, at preprocessing time");
-#endif
-
     static $tls(int) thread_local_integer = 1;
 
     // etc...
 }
-
 */

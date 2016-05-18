@@ -38,8 +38,8 @@
 #endif
 
 #ifndef BUILD_STR
-#define BUILD_STr(a)  #a
-#define BUILD_STR(a)  BUILD_STr(a)
+#define BUILD_S7R(a)  #a
+#define BUILD_STR(a)  BUILD_S7R(a)
 #endif
 
 #ifndef BUILD_ARCH
