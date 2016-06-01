@@ -3,15 +3,31 @@
 
 template<typename container, typename T>
 unsigned find( const T &x, const container &v ) {
-    unsigned min = 0, max = unsigned(v.size());
-    while( min < max ) {
-        unsigned mid = min + ( max - min ) / 2;
+    int min = 0, max = int(v.size());
+    while( min <= max ) {
+        int mid = min + ( max - min ) / 2;
         /**/ if( x == v[mid] ) return mid;
-        else if( x < v[mid] ) max = mid;
+        else if( x  < v[mid] ) max = mid - 1;
         else min = mid + 1;
     }
     return ~0u;
 }
+
+#if 0 
+// C version:
+#include <string.h>
+unsigned find( const char *key, const char *array, int numelems ) {
+    int min = 0, max = numelems;
+    while( min <= max ) {
+        int mid = min + ( max - min ) / 2;
+        int search = strcmp(key, array[mid]);
+        /**/ if( 0 ==search ) return mid;
+        else if( search < 0 ) max = mid - 1;
+        else min = mid + 1;
+    }
+    return ~0u;
+}
+#endif
 
 #include <cassert>
 #include <vector>
