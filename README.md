@@ -22,6 +22,7 @@
 |[tinyprint.cc](tinyprint.cc)|C++|Comma-based printer|
 |[tinypulse.c](tinypulse.c)|C|Digital pulses|
 |[tinyroman.cc](tinyroman.cc)|C++|Integer to roman literals|
+|[tinystr.cc](tinystr.cc)|C++|String utilities|
 |[tinytga.c](tinytga.c)|C|Forked TGA writer|
 |[tinytodo.cc](tinytodo.cc)|C++11|TODO() macro|
 |[tinytty.c](tinytty.c)|C|Terminal utilities|
