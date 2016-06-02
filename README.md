@@ -7,6 +7,7 @@
 |Snippet|Language|Domain|
 |:------|:-------|:-----|
 |[tinyatoi.c](tinyatoi.c)|C|atoi() replacement|
+|[tinybsearch.c](tinybsearch.c)|C|Dichotomic binary search|
 |[tinybsearch.cc](tinybsearch.cc)|C++|Dichotomic binary search|
 |[tinybuild.h](tinybuild.h)|C|Build macros|
 |[tinydbg.h](tinydbg.h)|C|Debug macros|
@@ -16,6 +17,7 @@
 |[tinyhexdump.c](tinyhexdump.c)|C|Hexdump viewer|
 |[tinylog.h](tinylog.h)|C|Logging utilities|
 |[tinylogger.cc](tinylogger.cc)|C++|Session logger|
+|[tinymatch.c](tinymatch.c)|C|Wildcard/pattern matching|
 |[tinynow.cc](tinynow.cc)|C++|Timing utilities|
 |[tinyprint.cc](tinyprint.cc)|C++|Comma-based printer|
 |[tinypulse.c](tinypulse.c)|C|Digital pulses|
