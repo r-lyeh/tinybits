@@ -19,6 +19,7 @@
 |[tinylogger.cc](tinylogger.cc)|C++|Session logger|
 |[tinymatch.c](tinymatch.c)|C|Wildcard/pattern matching|
 |[tinynow.cc](tinynow.cc)|C++|Timing utilities|
+|[tinypipe.hpp](tinypipe.hpp)|C++11|Chainable pipes|
 |[tinyprint.cc](tinyprint.cc)|C++|Comma-based printer|
 |[tinypulse.c](tinypulse.c)|C|Digital pulses|
 |[tinyroman.cc](tinyroman.cc)|C++|Integer to roman literals|
