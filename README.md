@@ -15,6 +15,7 @@
 |[tinyendian.c](tinyendian.c)|C|Endianness conversion|
 |[tinyfsm.c](tinyfsm.c)|C|Tight FSM|
 |[tinyhexdump.c](tinyhexdump.c)|C|Hexdump viewer|
+|[tinyhuman.hpp](tinyhuman.hpp)|C++|De/humanized numbers|
 |[tinylog.h](tinylog.h)|C|Logging utilities|
 |[tinylogger.cc](tinylogger.cc)|C++|Session logger|
 |[tinymatch.c](tinymatch.c)|C|Wildcard/pattern matching|
