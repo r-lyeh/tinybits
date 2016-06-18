@@ -3,65 +3,101 @@
 
 #pragma once
 #include <vector>
-#include <functional>
+#include <sstream>
 
-/* pipe manipulation */
-template< typename out_t, typename in_t >
-struct pipe {
-    std::vector< std::function<bool(out_t&,const in_t&)> > filters;
+template< typename T, typename istream >
+void copy( T &s, const istream &is ) {
+    std::stringstream ss;
+    std::streamsize at = is.rdbuf()->pubseekoff(0,is.cur);
+    ss << is.rdbuf();
+    is.rdbuf()->pubseekpos(at);
+    auto x = ss.str();
+    s.assign( x.begin(), x.end() );
+}
 
-    // basics
-    template<typename filter>
-    pipe &operator <<( const filter &fn ) {
-        return filters.push_back( fn ), *this;
+template< typename istream, typename ostream, typename container = std::vector<char> >
+bool pipe( const istream &is, ostream &os, const std::vector< int (*)(const char *, int, char *, int) > &vec = std::vector< int (*)(const char *, int, char *, int) >(), float upfactor = 2.f ) {
+    container src, dst;
+    container *A = &src, *B = &dst, *C;
+    copy( src, is );
+    if( !is.good() ) {
+        return false;
     }
-    bool operator()( out_t &out, const in_t &in ) const {
-        enum state { FAIL, KEEP, STOP } st = KEEP;
-        for( auto &fn : filters ) {
-            if( KEEP != ( st = (state)fn( out, in ) ) ) {
-                break;
-            }
-        }
-        return FAIL != st;
+    for( auto &fn : vec ) {
+        B->resize( A->size() * upfactor );
+        int wlen = fn( (const char *)&(*A)[0], A->size(), &(*B)[0], B->size() );
+        if( wlen >= 0 ) {
+            B->resize( wlen );
+            C = B, B = A, A = C;
+        } else return false;
     }
-    out_t operator()( const in_t &in ) const {
-        out_t out;
-        return operator()( out, in ) ? out : out_t();
-    }
+    os.write( &(*A)[0], (*A).size() );
+    return os.good();
+}
 
-    // aliases
-    template<typename filter>
-    pipe &chain( const filter &fn ) {
-        return operator <<( fn );
-    }
-    bool process( out_t &out, in_t &in ) const {
-        return operator()( out, in );
-    }
-    out_t process( const in_t &in ) const {
-        return operator()( in );
-    }
-};
 
 #ifdef TINYPIPE_BUILD_DEMO
-#include <cassert>
-#include <string>
+int rot13ish( const char *src, int slen, char *dst, int dlen ) {
+    char *bak = dst;
+    const char *p = src, *e = src + slen;
+    while( p < e ) *dst++ = (*p & 0xf0) | (*p & 0x0f) ^ 0x7, ++p;
+    return dst - bak;
+}
+int upper( const char *src, int slen, char *dst, int dlen ) {
+    char *bak = dst;
+    const char *p = src, *e = src + slen;
+    size_t len = e - p;
+    while( p < e ) *dst++ = (*p >= 'a' ? *p - 'a' + 'A' : *p), ++p;
+    return dst - bak;
+}
+int lower( const char *src, int slen, char *dst, int dlen ) {
+    char *bak = dst;
+    const char *p = src, *e = src + slen;
+    size_t len = e - p;
+    while( p < e ) *dst++ = (*p >= 'A' ? *p - 'A' + 'a' : *p), ++p;
+    return dst - bak;
+}
+int noparens( const char *src, int slen, char *dst, int dlen ) {
+    char *bak = dst;
+    const char *p = src, *e = src + slen;
+    while( p < e ) {
+        if( *p != '(' && *p != ')' ) *dst++ = *p++; else *p++;
+    }
+    return dst - bak;
+}
+int numberx2( const char *src, int slen, char *dst, int dlen ) {
+    char *bak = dst;
+    const char *p = src, *e = src + slen;
+    while( p < e ) {
+        bool n = *p >= '0' && *p <= '9';
+        dst[0]=dst[n]=*p++, dst+=n+1;
+    }
+    return dst - bak;
+}
+int l33t( const char *src, int slen, char *dst, int dlen ) {
+    char *bak = dst;
+    const char *p = src, *e = src + slen;
+    while(p < e)
+    switch(*p++) {
+        default: *dst++ = p[-1];
+        break; case 'O': *dst++ = '0';
+        break; case 'T': *dst++ = '7';
+        break; case 'E': *dst++ = '3';
+        break; case 'L': *dst++ = '1';
+        break; case 'I': *dst++ = '1';
+        break; case 'A': *dst++ = '4';
+    }
+    return dst - bak;
+}
+#include <fstream>
 #include <iostream>
+#include <sstream>
 int main() {
-    pipe< std::string, std::string > in, out;
+    std::stringstream is; is << "hello";
+    pipe( is, std::cout );
 
-    // setup
-    in  << []( std::string &dst, const std::string &src ) { return dst = src + "1", true; }
-        << []( std::string &dst, const std::string &src ) { return dst += "2", true; }
-        << []( std::string &dst, const std::string &src ) { return std::reverse( dst.begin(), dst.end() ), true; };
-
-    out << []( std::string &dst, const std::string &src ) { return dst = src, std::reverse( dst.begin(), dst.end() ), true; }
-        << []( std::string &dst, const std::string &src ) { return dst.pop_back(), true; }
-        << []( std::string &dst, const std::string &src ) { return dst.pop_back(), true; };
-
-    std::string indata = "hello";
-    std::cout << indata            << " --> " << in( indata ) << std::endl;
-    std::cout << out(in( indata )) << " <-- " << in( indata ) << std::endl;
-
-    assert( indata == out(in(indata)) );
+    std::ifstream ifs{__FILE__};
+    pipe( ifs, std::cout, { rot13ish, rot13ish } );
+    pipe( ifs, std::cout, { upper, l33t, lower, numberx2, noparens } );
 }
 #endif
