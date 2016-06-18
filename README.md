@@ -27,7 +27,8 @@
 |[tinytga.c](tinytga.c)|C|Forked TGA writer|
 |[tinytodo.cc](tinytodo.cc)|C++11|TODO() macro|
 |[tinytty.c](tinytty.c)|C|Terminal utilities|
-|[tinyunit.cc](tinyunit.cc)|C++|Minimal unit-testing|
+|[tinyunit.cc](tinyunit.cc)|C++|Unit-testing|
+|[tinyuntar.cc](tinyuntar.cc)|C++|Tar, ustar, GNU tar extraction|
 |[tinyvar.cc](tinyvar.cc)|C++|Variant class|
 |[tinywav.c](tinywav.c)|C|Forked WAV writer|
 |[tinywtf.h](tinywtf.h)|C/C++|Portable host macros|
