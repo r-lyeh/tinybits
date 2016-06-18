@@ -1,6 +1,7 @@
 // portable gnu tar, ustar and regular tar extraction
 // - rlyeh, public domain
 
+#pragma once
 #include <string>
 #include <stdint.h>
 
@@ -63,6 +64,7 @@ bool untar( const dir_callback &dir_cb, const file_callback &file_cb, istream &i
     return false;
 }
 
+#ifdef TINYUNTAR_BUILD_DEMO
 #include <iostream>
 #include <fstream>
 int main(int argc, const char** argv) {
@@ -90,3 +92,4 @@ int main(int argc, const char** argv) {
 
     return 0;
 }
+#endif
