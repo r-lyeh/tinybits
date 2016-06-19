@@ -1,12 +1,11 @@
-// portable gnu tar, ustar and regular tar extraction
+// portable gnu tar and ustar extraction
 // - rlyeh, public domain
-
 #pragma once
 #include <string>
 #include <stdint.h>
 
-template<typename dir_callback, typename file_callback, typename istream>
-bool untar( const dir_callback &dir_cb, const file_callback &file_cb, istream &is ) {
+template<typename callback, typename istream>
+bool untar( const callback &cb, istream &is ) {
     enum {
         name     =   0, // (null terminated)
         mode     = 100, // (octal)
@@ -40,24 +39,28 @@ bool untar( const dir_callback &dir_cb, const file_callback &file_cb, istream &i
     } };
 
     // handle both regular tar and ustar tar filenames until end of tar is found
-    for( char header[512], blank[512] = {}; is.good(); ) {
+    bool is_tar = 1;
+    for( char header[512], blank[512] = {}; is_tar && is.good(); ) {
         is.read( header, 512 );
-        if( memcmp( &header, &blank, 512 ) ) {                                // if not end of tar
-            int namelen = strlen(header+name), pathlen = strlen(header+path); // read filename
-            std::string entry =
-            std::string(header+path, pathlen < 155 ? pathlen : 155 ) + (pathlen ? "/" : "") +
-            std::string(header+name, namelen < 100 ? namelen : 100 );
+        if( memcmp( header, blank, 512 ) ) {                                      // if not end of tar
+            if( !memcmp( header+magic, "ustar", 5 ) ) {                           // if valid ustar
+                int namelen = strlen(header+name), pathlen = strlen(header+path); // read filename
+                std::string entry =
+                std::string(header+path, pathlen < 155 ? pathlen : 155 ) + (pathlen ? "/" : "") +
+                std::string(header+name, namelen < 100 ? namelen : 100 );
 
-            switch( header[type] ) {
-                default:                                                      // unsupported file type
-                break; case '5': dir_cb( is, entry );                         // directory
-                break; case 'L': entry = header+name; is.read( header, 512 ); // gnu tar long filename
-                break; case '0': case 0: {                                    // regular file
-                    uint64_t len = octal()(header+size, header+modtime);      // decode octal size
-                    if( len && !file_cb( is, entry, len ) ) is.ignore( len ); // skip block if unprocessed
-                    is.ignore( (512 - (len & 511)) & 511 );                   // skip padding
+                switch( header[type] ) {
+                    default:                                                      // unsupported file type
+                    break; case '5': cb(entry+(entry.back() == '/' ? "":"/"), 0); // directory
+                    break; case 'L': entry = header+name; is.read( header, 512 ); // gnu tar long filename
+                    break; case '0': case 0: {                                    // regular file
+                        uint64_t len = octal()(header+size, header+modtime);      // decode octal size
+                        char *dst = (len ? cb(entry, len) : 0);                   // read block if processed
+                        if( dst ) is.read( dst, len ); else is.ignore( len );     // skip block if unprocessed
+                        is.ignore( (512 - (len & 511)) & 511 );                   // skip padding
+                    }
                 }
-            }
+            } else return false;
         } else return is.good();
     }
 
@@ -67,26 +70,22 @@ bool untar( const dir_callback &dir_cb, const file_callback &file_cb, istream &i
 #ifdef TINYUNTAR_BUILD_DEMO
 #include <iostream>
 #include <fstream>
+#include <map>
 int main(int argc, const char** argv) {
     if( argc != 2 ) {
         return std::cerr << "Usage: " << argv[0] << " archive.tar" << std::endl, -1;
     }
 
-    auto dir_callback = [&]( std::istream &in, const std::string &dirname ) {
-        std::cout << dirname << " (dir)" << std::endl;
-        return true; // true if processed
-    };
+    std::map<std::string, std::string> dir;
 
-    auto file_callback = [&]( std::istream &in, const std::string &filename, uint64_t size ) {
+    auto file_callback = [&]( const std::string &filename, uint64_t size ) {
         std::cout << filename << " (" << size << " bytes)" << std::endl;
-        char* data = new char[ size + 1 ]; // read file: +1 to interpret the file as c_str()
-        in.read(data, size); data[ size ] = '\0';
-        delete[] data;
-        return true; // true if processed, false if skipped
+        dir[ filename ].resize( size );
+        return (char *)&dir[ filename ][0]; // to be processed if valid ptr, to be skipped if null
     };
 
     std::ifstream in(argv[1], std::ios_base::binary);
-    if( !untar( dir_callback, file_callback, in ) ) {
+    if( !untar( file_callback, in ) ) {
         return std::cerr << "untar failed" << std::endl, -1;
     }
 
