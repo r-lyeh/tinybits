@@ -38,8 +38,7 @@ bool untar( const callback &cb, istream &is ) {
             return sum;
     } };
 
-    // handle both regular tar and ustar tar filenames until end of tar is found
-    bool is_tar = 1;
+    // handle both gnutar/ustar filenames until end of tar is found
     for( char header[512], blank[512] = {}; is_tar && is.good(); ) {
         is.read( header, 512 );
         if( memcmp( header, blank, 512 ) ) {                                      // if not end of tar
@@ -68,27 +67,22 @@ bool untar( const callback &cb, istream &is ) {
 }
 
 #ifdef TINYUNTAR_BUILD_DEMO
-#include <iostream>
+#include <stdio.h>
 #include <fstream>
 #include <map>
-int main(int argc, const char** argv) {
-    if( argc != 2 ) {
-        return std::cerr << "Usage: " << argv[0] << " archive.tar" << std::endl, -1;
+int main( int argc, const char** argv ) {
+    if( argc == 2 ) {
+        std::map<std::string, std::string> dir;
+
+        auto file_callback = [&]( const std::string &filename, uint64_t size ) {
+            printf("%s (%lld bytes)\n", filename.c_str(), size );
+            dir[ filename ].resize( size );
+            return (char *)&dir[ filename ][0]; // to be processed if valid ptr, to be skipped if null
+        };
+
+        std::ifstream in(argv[1], std::ios_base::binary);
+        return untar( file_callback, in ) ? 0 : -fprintf( stderr, "%s\n", "untar failed");
     }
-
-    std::map<std::string, std::string> dir;
-
-    auto file_callback = [&]( const std::string &filename, uint64_t size ) {
-        std::cout << filename << " (" << size << " bytes)" << std::endl;
-        dir[ filename ].resize( size );
-        return (char *)&dir[ filename ][0]; // to be processed if valid ptr, to be skipped if null
-    };
-
-    std::ifstream in(argv[1], std::ios_base::binary);
-    if( !untar( file_callback, in ) ) {
-        return std::cerr << "untar failed" << std::endl, -1;
-    }
-
-    return 0;
+    return -fprintf( stderr, "Usage: %s file.tar\n", argv[0]);
 }
 #endif
