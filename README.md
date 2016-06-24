@@ -6,6 +6,7 @@
 
 |Snippet|Language|Domain|
 |:------|:-------|:-----|
+|[tinyarc4.hpp](tinyarc4.hpp)|C++|ARC4 stream cypher|
 |[tinyatoi.c](tinyatoi.c)|C|atoi() replacement|
 |[tinybsearch.c](tinybsearch.c)|C|Dichotomic binary search|
 |[tinybsearch.cc](tinybsearch.cc)|C++|Dichotomic binary search|
