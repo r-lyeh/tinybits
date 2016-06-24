@@ -8,6 +8,7 @@
 |:------|:-------|:-----|
 |[tinyarc4.hpp](tinyarc4.hpp)|C++|ARC4 stream cypher|
 |[tinyatoi.c](tinyatoi.c)|C|atoi() replacement|
+|[tinybench.hpp](tinybench.hpp)|C++|Benchmark code|
 |[tinybsearch.c](tinybsearch.c)|C|Dichotomic binary search|
 |[tinybsearch.cc](tinybsearch.cc)|C++|Dichotomic binary search|
 |[tinybuild.h](tinybuild.h)|C|Build macros|
