@@ -33,5 +33,6 @@
 |[tinyunit.cc](tinyunit.cc)|C++|Unit-testing|
 |[tinyuntar.hpp](tinyuntar.hpp)|C++|Tar, ustar, GNU tar extraction|
 |[tinyvar.cc](tinyvar.cc)|C++|Variant class|
+|[tinyvbyte.h](tinyvbyte.h)|C|VLE encoder/decoder (vbyte)|
 |[tinywav.c](tinywav.c)|C|Forked WAV writer|
 |[tinywtf.h](tinywtf.h)|C/C++|Portable host macros|
