@@ -31,7 +31,8 @@
 |[tinytodo.cc](tinytodo.cc)|C++11|TODO() macro|
 |[tinytty.c](tinytty.c)|C|Terminal utilities|
 |[tinyunit.cc](tinyunit.cc)|C++|Unit-testing|
-|[tinyuntar.hpp](tinyuntar.hpp)|C++|Tar, ustar, GNU tar extraction|
+|[tinyun9660.hpp](tinyun9660.hpp)|C++|.iso/9960 unarchiver|
+|[tinyuntar.hpp](tinyuntar.hpp)|C++|Gnu tar and ustar unarchiver|
 |[tinyvar.cc](tinyvar.cc)|C++|Variant class|
 |[tinyvbyte.h](tinyvbyte.h)|C|VLE encoder/decoder (vbyte)|
 |[tinywav.c](tinywav.c)|C|Forked WAV writer|
