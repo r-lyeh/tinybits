@@ -1,10 +1,9 @@
 // tiny directory listing
-// rlyeh, public domain
+// - rlyeh, public domain
 #pragma once
 #include <string>
 
 #ifdef _WIN32
-#include <io.h>
 #include <winsock2.h>
 #else
 #include <dirent.h>
