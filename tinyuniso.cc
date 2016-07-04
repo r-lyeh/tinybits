@@ -1,6 +1,5 @@
 // tiny iso/9660 unarchiver [GnZ74Q]. [ref] http://wiki.osdev.org/ISO_9660
 // - rlyeh, public domain
-
 #pragma once
 #include <functional>
 #include <stdint.h>
@@ -8,7 +7,7 @@
 #include <vector>
 
 template<typename FN, typename istream>
-bool tinyun9660( istream &is, const FN &yield ) {
+bool tinyuniso( istream &is, const FN &yield ) {
     // directory record
     struct dir_t {
         uint8_t  flags;
@@ -55,7 +54,7 @@ bool tinyun9660( istream &is, const FN &yield ) {
 
     // retrieve partial contents
     auto get_sector = [&]( int64_t sector, int64_t length ) {
-        is.seekg( sector*2048, is.beg );
+        return is.seekg( sector*2048, is.beg ), is.good();
     };
 
     // retrieve whole file contents
@@ -66,8 +65,7 @@ bool tinyun9660( istream &is, const FN &yield ) {
 
     // parse volume descriptors
     int sector = 0x10;
-    while( is.good() ) {
-        get_sector( sector++, 2048 );
+    while( get_sector(sector++, 2048) ) {
         uint8_t typecode;
         unpack_raw(1, &typecode);
 
@@ -76,8 +74,9 @@ bool tinyun9660( istream &is, const FN &yield ) {
             std::string id(5, '\0');
             unpack_raw(5, &id[0]); if(id != "CD001") return false;
             unpack_raw(1+1+32+32+8+8+32+4+4+4+8+4+4+4+4, 0);
-            unpack_record( &root );
+            unpack_record( &root ); break;
         }
+        else return false;
     }
 
     // recurse directory structure
@@ -127,16 +126,16 @@ bool tinyun9660( istream &is, const FN &yield ) {
     return is.good();
 }
 
-#ifdef TINY9660_MAIN
+#ifdef TINYISO_MAIN
 #include <iostream>
 #include <fstream>
-int TINY9660_MAIN( int argc, const char **argv ) {
+int TINYISO_MAIN( int argc, const char **argv ) {
     if( argc <= 1 ) {
         return std::cout << "Usage: " << argv[0] << " file.iso [path]" << std::endl, -1;
     }
     std::string read;
     std::ifstream ifs( argv[1], std::ios::binary );
-    bool ok = ifs.good() && tinyun9660( ifs, 
+    bool ok = ifs.good() && tinyuniso( ifs, 
         [&]( const std::string &path, uint64_t size, const char *stamp, uint64_t offset ) { 
             // .csv list
             std::cout << "'" << path << "'," << size << ",'" << stamp  << "'" << std::endl;

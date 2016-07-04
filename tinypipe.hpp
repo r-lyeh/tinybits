@@ -16,7 +16,7 @@ void copy( T &s, const istream &is ) {
 }
 
 template< typename istream, typename ostream, typename container = std::vector<char> >
-bool pipe( const istream &is, ostream &os, const std::vector< int (*)(const char *, int, char *, int) > &vec = std::vector< int (*)(const char *, int, char *, int) >(), float upfactor = 2.f ) {
+bool pipe( const istream &is, ostream &os, const std::vector< int (*)(const char *, int, char *, int) > &vec = std::vector< int (*)(const char *, int, char *, int) >() ) {
     container src, dst;
     container *A = &src, *B = &dst, *C;
     copy( src, is );
@@ -24,7 +24,8 @@ bool pipe( const istream &is, ostream &os, const std::vector< int (*)(const char
         return false;
     }
     for( auto &fn : vec ) {
-        B->resize( A->size() * upfactor );
+        auto bounds = fn( (const char *)&(*A)[0],A->size(),0,B->size() );
+        B->resize( bounds );
         int wlen = fn( (const char *)&(*A)[0], A->size(), &(*B)[0], B->size() );
         if( wlen >= 0 ) {
             B->resize( wlen );
@@ -38,12 +39,14 @@ bool pipe( const istream &is, ostream &os, const std::vector< int (*)(const char
 
 #ifdef TINYPIPE_BUILD_DEMO
 int rot13ish( const char *src, int slen, char *dst, int dlen ) {
+    if( !dst ) return slen * 2; // bounds
     char *bak = dst;
     const char *p = src, *e = src + slen;
     while( p < e ) *dst++ = (*p & 0xf0) | (*p & 0x0f) ^ 0x7, ++p;
     return dst - bak;
 }
 int upper( const char *src, int slen, char *dst, int dlen ) {
+    if( !dst ) return slen * 2; // bounds
     char *bak = dst;
     const char *p = src, *e = src + slen;
     size_t len = e - p;
@@ -51,6 +54,7 @@ int upper( const char *src, int slen, char *dst, int dlen ) {
     return dst - bak;
 }
 int lower( const char *src, int slen, char *dst, int dlen ) {
+    if( !dst ) return slen * 2; // bounds
     char *bak = dst;
     const char *p = src, *e = src + slen;
     size_t len = e - p;
@@ -58,6 +62,7 @@ int lower( const char *src, int slen, char *dst, int dlen ) {
     return dst - bak;
 }
 int noparens( const char *src, int slen, char *dst, int dlen ) {
+    if( !dst ) return slen * 2; // bounds
     char *bak = dst;
     const char *p = src, *e = src + slen;
     while( p < e ) {
@@ -66,6 +71,7 @@ int noparens( const char *src, int slen, char *dst, int dlen ) {
     return dst - bak;
 }
 int numberx2( const char *src, int slen, char *dst, int dlen ) {
+    if( !dst ) return slen * 2; // bounds
     char *bak = dst;
     const char *p = src, *e = src + slen;
     while( p < e ) {
@@ -75,6 +81,7 @@ int numberx2( const char *src, int slen, char *dst, int dlen ) {
     return dst - bak;
 }
 int l33t( const char *src, int slen, char *dst, int dlen ) {
+    if( !dst ) return slen * 2; // bounds
     char *bak = dst;
     const char *p = src, *e = src + slen;
     while(p < e)

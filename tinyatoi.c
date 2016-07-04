@@ -1,22 +1,20 @@
 // Tiny atoi() replacement. rlyeh, public domain
-
-int atoi( const char *cstr ) {
-    int integer = 0, neg = 1;
-    if ( cstr ) {
-        for( ; *cstr == '-' ; cstr++ ) {
-            neg *= -1;
-        }
-        for( ; (*cstr >= '0') && (*cstr <= '9'); cstr++ ) {
-            integer = (integer * 10) + *cstr - '0';
-        }
+#pragma once
+int tinyatoi( const char *s ) {
+    int v = 0, n = 1;
+    if( s ) {
+        while( *s == '-' ) n *= -1, s++;
+        while( *s >= '0' && *s <= '9') v = (v * 10) + *s++ - '0';
     }
-    return neg * integer;
+    return n * v;
 }
 
+#ifdef TINYATOI_MAIN
 #include <stdio.h>
-int main() {
-    printf("%d\n", atoi("01230"));
-    printf("%d\n", atoi("-01230"));
-    printf("%d\n", atoi("--01230"));
-    printf("%d\n", atoi("---01230"));
+int TINYATOI_MAIN() {
+    printf("%d\n", tinyatoi("01230"));
+    printf("%d\n", tinyatoi("-01230"));
+    printf("%d\n", tinyatoi("--01230"));
+    printf("%d\n", tinyatoi("---01230"));
 }
+#endif

@@ -15,16 +15,16 @@ bool tinydir( const char *directory, const FN &yield ) {
     while( !src.empty() && (src.back() == '/' || src.back() == '\\') ) src.pop_back();
 #ifdef _WIN32
     WIN32_FIND_DATA fdata;
-    for( HANDLE h = FindFirstFileA( (src + "\\*").c_str(), &fdata); h != INVALID_HANDLE_VALUE; ) {
-        for( bool next = true; next; next = FindNextFileA(h, &fdata) != 0 ) {
+    for( HANDLE h = FindFirstFileA( (src + "/*").c_str(), &fdata ); h != INVALID_HANDLE_VALUE; ) {
+        for( bool next = true; next; next = FindNextFileA( h, &fdata ) != 0 ) {
             if( fdata.cFileName[0] != '.' ) {
-                yield( (src + "\\" + fdata.cFileName).c_str(), fdata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ? 1 : 0 );
+                yield( (src + "/" + fdata.cFileName).c_str(), (fdata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) > 0 );
             }
         }
-        return FindClose(h), true;
+        return FindClose( h ), true;
     }
 #else
-    for( DIR *dir = opendir( src.c_str() ); dir; ) {
+    for( DIR *dir = opendir( (src + "/").c_str() ); dir; ) {
         for( struct dirent *ep; ep = readdir( dir ); ) {
             if( ep->d_name[0] != '.' ) {
                 DIR *tmp = opendir( ep->d_name );

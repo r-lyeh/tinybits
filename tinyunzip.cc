@@ -102,7 +102,7 @@ bool tinyunzip( istream &is, const FN &yield ) {
                 fh.offset = gfh.offsrel;
                 if( swap32(fh.size) != 0 || buffer[ swap16(gfh.namelen) - 1 ] != '/' )   // if not dir
                 if( swap16(fh.zmethod) == 0 || swap16(fh.zmethod) == 8 ) {               // if supported
-                    char *ptr = yield( &buffer[0], 0, swap32(fh.unsize), 0, swap32(fh.size) ); // reserve
+                    char *ptr = yield( &buffer[0], swap32(fh.unsize), swap32(fh.size) ); // reserve
                     if( ptr ) {
                         auto pos = is.tellg();
                         is.seekg( swap32(fh.offset), is.beg );
@@ -136,7 +136,7 @@ bool tinyunzip( istream &is, const FN &yield ) {
 int TINYUNZIP_MAIN( int argc, const char **argv ) {
     std::map<std::string, char *> toc;
     std::ifstream is( argc > 1 ? argv[1] : argv[0], std::ios::binary );
-    return tinyunzip( is, [&]( const char *filename, char *dst, int dlen, const char *src, int zlen ) {
+    return tinyunzip( is, [&]( const char *filename, int dlen, int zlen ) {
         std::cout << filename << " " << zlen << " -> " << dlen << std::endl;
         return toc[ filename ] = (char *)malloc(dlen);
     } );

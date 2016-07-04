@@ -4,8 +4,8 @@
 #include <string>
 #include <stdint.h>
 
-template<typename callback, typename istream>
-bool untar( const callback &cb, istream &is ) {
+template<typename FN, typename istream>
+bool tinyuntar( istream &is, const FN &yield ) {
     enum {
         name     =   0, // (null terminated)
         mode     = 100, // (octal)
@@ -38,8 +38,8 @@ bool untar( const callback &cb, istream &is ) {
             return sum;
     } };
 
-    // handle both gnutar/ustar filenames until end of tar is found
-    for( char header[512], blank[512] = {}; is_tar && is.good(); ) {
+    // handle both regular tar and ustar tar filenames until end of tar is found
+    for( char header[512], blank[512] = {}; is.good(); ) {
         is.read( header, 512 );
         if( memcmp( header, blank, 512 ) ) {                                      // if not end of tar
             if( !memcmp( header+magic, "ustar", 5 ) ) {                           // if valid ustar
@@ -50,11 +50,11 @@ bool untar( const callback &cb, istream &is ) {
 
                 switch( header[type] ) {
                     default:                                                      // unsupported file type
-                    break; case '5': cb(entry+(entry.back() == '/' ? "":"/"), 0); // directory
+                    break; case '5': //yield(entry.back()!='/'?entry+'/':entry,0);// directory
                     break; case 'L': entry = header+name; is.read( header, 512 ); // gnu tar long filename
                     break; case '0': case 0: {                                    // regular file
                         uint64_t len = octal()(header+size, header+modtime);      // decode octal size
-                        char *dst = (len ? cb(entry, len) : 0);                   // read block if processed
+                        char *dst = (len ? yield(entry, len) : 0);                // read block if processed
                         if( dst ) is.read( dst, len ); else is.ignore( len );     // skip block if unprocessed
                         is.ignore( (512 - (len & 511)) & 511 );                   // skip padding
                     }
@@ -66,23 +66,17 @@ bool untar( const callback &cb, istream &is ) {
     return false;
 }
 
-#ifdef TINYUNTAR_BUILD_DEMO
-#include <stdio.h>
+#ifdef TINYUNTAR_MAIN
+#include <iostream>
 #include <fstream>
 #include <map>
-int main( int argc, const char** argv ) {
-    if( argc == 2 ) {
-        std::map<std::string, std::string> dir;
-
-        auto file_callback = [&]( const std::string &filename, uint64_t size ) {
-            printf("%s (%lld bytes)\n", filename.c_str(), size );
-            dir[ filename ].resize( size );
-            return (char *)&dir[ filename ][0]; // to be processed if valid ptr, to be skipped if null
-        };
-
-        std::ifstream in(argv[1], std::ios_base::binary);
-        return untar( file_callback, in ) ? 0 : -fprintf( stderr, "%s\n", "untar failed");
-    }
-    return -fprintf( stderr, "Usage: %s file.tar\n", argv[0]);
+int TINYUNTAR_MAIN( int argc, const char **argv ) {
+    if( argc != 2 ) return std::cerr << "Usage: " << argv[0] << " archive.tar" << std::endl, -1;
+    std::map<std::string, char *> dir;
+    std::ifstream in(argv[1], std::ios_base::binary);
+    return tinyuntar( in, [&]( const std::string &filename, uint64_t size ) {
+        std::cout << filename << " (" << size << " bytes)" << std::endl;
+        return dir[ filename ] = (char *)malloc( size ); // processed if valid ptr, skipped if null
+    } );
 }
 #endif
