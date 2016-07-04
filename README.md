@@ -34,6 +34,7 @@
 |[tinyunit.cc](tinyunit.cc)|C++|Unit-testing|
 |[tinyun9660.hpp](tinyun9660.hpp)|C++|.iso/9960 unarchiver|
 |[tinyuntar.hpp](tinyuntar.hpp)|C++|Gnu tar and ustar unarchiver|
+|[tinyunzip.cc](tinyunzip.cc)|C++|Zip unarchiver|
 |[tinyvar.cc](tinyvar.cc)|C++|Variant class|
 |[tinyvbyte.h](tinyvbyte.h)|C|VLE encoder/decoder (vbyte)|
 |[tinywav.c](tinywav.c)|C|Forked WAV writer|
