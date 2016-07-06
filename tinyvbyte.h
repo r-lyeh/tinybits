@@ -3,7 +3,9 @@
 #pragma once
 #include <stdint.h>
 
-uint64_t tinyvbyte_uencode( uint8_t *buffer, uint64_t value ) {
+enum { VBYTE_MIN_REQ_BYTES = 1, VBYTE_MAX_REQ_BYTES = 10 };
+
+static uint64_t tinyvbyte_uencode( uint8_t *buffer, uint64_t value ) {
     /* 7-bit packing. MSB terminates stream */
     const uint8_t *buffer0 = buffer;
     do {
@@ -13,7 +15,7 @@ uint64_t tinyvbyte_uencode( uint8_t *buffer, uint64_t value ) {
     *(buffer-1) ^= 0x80;
     return buffer - buffer0;
 }
-uint64_t tinyvbyte_udecode( uint64_t *value, const uint8_t *buffer ) {
+static uint64_t tinyvbyte_idecode( uint64_t *value, const uint8_t *buffer ) {
     /* 7-bit unpacking. MSB terminates stream */
     const uint8_t *buffer0 = buffer;
     uint64_t out = 0, j = -7;
@@ -24,16 +26,16 @@ uint64_t tinyvbyte_udecode( uint64_t *value, const uint8_t *buffer ) {
     return buffer - buffer0;
 }
 
-uint64_t tinyvbyte_iencode( uint8_t *buffer, int64_t value ) {
+static uint64_t tinyvbyte_encode_i( uint8_t *buffer, int64_t value ) {
     /* convert sign|magnitude to magnitude|sign */
     uint64_t nv = (uint64_t)value;
     nv = nv & (1ull << 63) ? ~(nv << 1) : (nv << 1);
     /* encode unsigned */
     return tinyvbyte_uencode( buffer, nv );
 }
-uint64_t tinyvbyte_idecode( int64_t *value, const uint8_t *buffer ) {
+static uint64_t tinyvbyte_decode_i( int64_t *value, const uint8_t *buffer ) {
     /* decode unsigned */
-    uint64_t nv, ret = vle_decode_u( &nv, buffer );
+    uint64_t nv, ret = tinyvbyte_idecode( &nv, buffer );
     /* convert magnitude|sign to sign|magnitude */
     *value = nv & (1) ? ~(nv >> 1) : (nv >> 1);
     return ret;
