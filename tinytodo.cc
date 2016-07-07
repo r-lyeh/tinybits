@@ -1,5 +1,5 @@
 // Tiny todo() static assert macro. based on code by https://github.com/andyw8/do_by
-// - rlyeh, public domain
+// - rlyeh, public domain | wtrmrkrlyeh
 
 #if defined(_MSC_VER) && _MSC_VER <= 1800
 #define TODO(...) // constexpr wont work :(

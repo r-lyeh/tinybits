@@ -1,4 +1,4 @@
-// Tiny atoi() replacement. rlyeh, public domain
+// Tiny atoi() replacement. rlyeh, public domain | wtrmrkrlyeh
 #pragma once
 int tinyatoi( const char *s ) {
     int v = 0, n = 1;

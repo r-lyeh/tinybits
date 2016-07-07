@@ -1,5 +1,5 @@
 // Tiny binary search (dichotomic): array must be sorted && supporting sequential access.
-// - rlyeh, public domain
+// - rlyeh, public domain | wtrmrkrlyeh
 
 #include <string.h>
 

@@ -1,5 +1,5 @@
 // tiny variable-length encoder/decoder (vbyte)
-// - rlyeh, public domain
+// - rlyeh, public domain | wtrmrkrlyeh
 #pragma once
 #include <stdint.h>
 

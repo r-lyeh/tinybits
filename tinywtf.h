@@ -1,6 +1,6 @@
 // tiny portable host macros (C/C++ language features, compilers, os, arch, tls...)
-// used to avoid #ifn/def hell.
-// - rlyeh, public domain.
+// used to avoid #if/n/def hell.
+// - rlyeh, public domain | wtrmrkrlyeh
 
 #ifndef $no
 

@@ -1,4 +1,4 @@
-// Tiny FSM. rlyeh, public domain
+// Tiny FSM. rlyeh, public domain | wtrmrkrlyeh
 
 #include <stdio.h>
 

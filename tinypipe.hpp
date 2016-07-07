@@ -1,5 +1,5 @@
 // tiny chainable pipes (C++11)
-// - rlyeh, public domain
+// - rlyeh, public domain | wtrmrkrlyeh
 
 #pragma once
 #include <vector>

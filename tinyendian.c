@@ -1,4 +1,4 @@
-// Tiny endianness. rlyeh, public domain
+// Tiny endianness. rlyeh, public domain | wtrmrkrlyeh
 #include <stdint.h>
 
 #if __STDC_VERSION__ >= 199901L

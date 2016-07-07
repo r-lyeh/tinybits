@@ -1,5 +1,5 @@
 // tinyARC4, ARC4 stream cypher. based on code by Mike Shaffer.
-// - rlyeh, public domain ~~ listening to Black Belt - Leeds
+// - rlyeh, public domain ~~ listening to Black Belt - Leeds | wtrmrkrlyeh
 
 #pragma once
 #include <string>

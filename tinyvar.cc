@@ -1,4 +1,4 @@
-// Tiny variant class. rlyeh, public domain
+// Tiny variant class. rlyeh, public domain | wtrmrkrlyeh
 #include <string>
 #include <functional>
 

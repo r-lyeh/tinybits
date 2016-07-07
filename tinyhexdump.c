@@ -1,4 +1,4 @@
-// Tiny hexdump viewer. rlyeh, public domain
+// Tiny hexdump viewer. rlyeh, public domain | wtrmrkrlyeh
 #include <stdio.h>
 
 void hexdump( const void *ptr, unsigned len, int width ) {

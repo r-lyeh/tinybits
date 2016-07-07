@@ -1,4 +1,4 @@
-// Tiny session logger. rlyeh, public domain
+// Tiny session logger. rlyeh, public domain | wtrmrkrlyeh
 #include <stdio.h>
 
 #ifdef SHIPPING

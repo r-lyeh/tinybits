@@ -1,4 +1,4 @@
-// Tiny timing utilities. rlyeh, public domain
+// Tiny timing utilities. rlyeh, public domain | wtrmrkrlyeh
 #include <thread>
 #include <chrono>
 #if !defined(TIMING_USE_OMP) && ( defined(USE_OMP) || defined(_MSC_VER) /*|| defined(__ANDROID_API__)*/ )

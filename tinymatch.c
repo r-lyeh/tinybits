@@ -1,5 +1,5 @@
 // tiny wildcard/pattern matching. Based on anonymous souce code.
-// - rlyeh. public domain.
+// - rlyeh. public domain | wtrmrkrlyeh
 
 static int match( const char *pattern, const char *str ) {
     if( *pattern=='\0' ) return !*str;

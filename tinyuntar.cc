@@ -1,5 +1,5 @@
 // portable gnu tar and ustar extraction
-// - rlyeh, public domain
+// - rlyeh, public domain | wtrmrkrlyeh
 #pragma once
 #include <string>
 #include <stdint.h>

@@ -1,4 +1,4 @@
-// Tiny digital pulses/signals. rlyeh, public domain
+// Tiny digital pulses/signals. rlyeh, public domain | wtrmrkrlyeh
 #include <stdio.h>
 
 void pulse( int *state ) {

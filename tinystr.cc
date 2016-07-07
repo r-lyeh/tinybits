@@ -1,5 +1,5 @@
 // tiny C++ string utilities
-// - rlyeh, public domain
+// - rlyeh, public domain | wtrmrkrlyeh
 
 // @toadd: pad, left, right, center, triml, trimr, trim, [-1]
 

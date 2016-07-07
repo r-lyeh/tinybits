@@ -1,4 +1,4 @@
-// Tiny unittest suite. rlyeh, public domain
+// Tiny unittest suite. rlyeh, public domain | wtrmrkrlyeh
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

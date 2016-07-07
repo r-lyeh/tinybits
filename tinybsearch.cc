@@ -1,5 +1,5 @@
 // Tiny binary search (dichotomic): container must be sorted && supporting sequential access.
-// - rlyeh, public domain
+// - rlyeh, public domain | wtrmrkrlyeh
 
 template<typename container, typename T>
 unsigned bsearch( const T &x, const container &v ) {

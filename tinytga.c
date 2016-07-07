@@ -1,5 +1,5 @@
 // Tiny TGA writer: original code by jon olick, public domain
-// Elder C version + return codes by rlyeh, public domain
+// Elder C version + return codes by rlyeh, public domain | wtrmrkrlyeh
 #include <stdio.h>
 int tinytga(const char *filename, void *rgba, int width, int height, int numChannels) {
     FILE *fp = fopen(filename, "wb");

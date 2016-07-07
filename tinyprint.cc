@@ -1,4 +1,4 @@
-// Tiny printer. Original code by Evan Wallace. rlyeh, public domain
+// Tiny printer. Original code by Evan Wallace. rlyeh, public domain | wtrmrkrlyeh
 #include <iostream>
 
 struct print {

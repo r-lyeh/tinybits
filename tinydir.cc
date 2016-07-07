@@ -1,5 +1,5 @@
 // tiny directory listing
-// - rlyeh, public domain
+// - rlyeh, public domain | wtrmrkrlyeh
 #pragma once
 #include <string>
 

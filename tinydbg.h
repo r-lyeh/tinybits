@@ -1,5 +1,5 @@
 // Tiny debug macros
-// - rlyeh, public domain
+// - rlyeh, public domain | wtrmrkrlyeh
 //
 // Build cube of 3 dimensions, 5 levels each:
 //

@@ -1,5 +1,5 @@
 // tiny benchmarks. OpenMP required.
-// - rlyeh, public domain
+// - rlyeh, public domain | wtrmrkrlyeh
 #pragma once
 #include <omp.h>
 #include <stdio.h>

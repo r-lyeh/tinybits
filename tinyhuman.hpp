@@ -1,5 +1,5 @@
 // tiny de/humanized numbers. based on freebsd implementation.
-// - rlyeh, public domain
+// - rlyeh, public domain | wtrmrkrlyeh
 
 #pragma once
 #include <string>

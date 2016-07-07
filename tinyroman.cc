@@ -1,4 +1,4 @@
-// Tiny integer to roman numerals converter (roughly tested). rlyeh, public domain.
+// Tiny integer to roman numerals converter (roughly tested). rlyeh, public domain | wtrmrkrlyeh
 #include <map>
 #include <string>
 

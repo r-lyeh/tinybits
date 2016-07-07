@@ -1,5 +1,5 @@
 // tiny zip unarchiver. based on junzip by Joonas Pihlajamaa
-// - rlyeh, public domain
+// - rlyeh, public domain | wtrmrkrlyeh
 #pragma once
 #include <stdint.h>
 #include <vector>

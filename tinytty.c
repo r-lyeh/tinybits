@@ -1,4 +1,4 @@
-// Tiny terminal utilities. rlyeh, public domain
+// Tiny terminal utilities. rlyeh, public domain | wtrmrkrlyeh
 #include <stdio.h>
 
 #ifdef _WIN32

@@ -1,5 +1,5 @@
-// tiny iso/9660 unarchiver [GnZ74Q]. [ref] http://wiki.osdev.org/ISO_9660
-// - rlyeh, public domain
+// tiny iso/9660 unarchiver. [ref] http://wiki.osdev.org/ISO_9660
+// - rlyeh, public domain | wtrmrkrlyeh
 #pragma once
 #include <functional>
 #include <stdint.h>

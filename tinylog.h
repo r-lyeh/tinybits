@@ -1,4 +1,4 @@
-// Tiny logging utilities. rlyeh, public domain
+// Tiny logging utilities. rlyeh, public domain | wtrmrkrlyeh
 #pragma once
 #include <stdio.h>
 #include <time.h>

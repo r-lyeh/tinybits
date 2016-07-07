@@ -1,5 +1,5 @@
 // Tiny WAV writer: original code by jon olick, public domain
-// Floating point support + pure C version by rlyeh, public domain
+// Floating point support + pure C version by rlyeh, public domain | wtrmrkrlyeh
 #include <stdio.h>
 int tinywav(const char *filename, short numChannels, short bitsPerSample, int sampleRateHz, const void *data, int size, int is_floating) {
     short bpsamp;

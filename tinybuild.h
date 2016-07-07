@@ -1,5 +1,5 @@
 // Tiny buildinfo macros
-// - rlyeh, public domain
+// - rlyeh, public domain | wtrmrkrlyeh
 
 #pragma once
 
