@@ -19,6 +19,7 @@
 |[tinyfsm.c](tinyfsm.c)|C|Tight FSM|
 |[tinyhexdump.c](tinyhexdump.c)|C|Hexdump viewer|
 |[tinyhuman.hpp](tinyhuman.hpp)|C++|De/humanized numbers|
+|[tinyinflater.cpp](tinyinflater.cpp)|C++|zlib inflater|
 |[tinylog.h](tinylog.h)|C|Logging utilities|
 |[tinylogger.cc](tinylogger.cc)|C++|Session logger|
 |[tinymatch.c](tinymatch.c)|C|Wildcard/pattern matching|
