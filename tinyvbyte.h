@@ -28,8 +28,7 @@ static uint64_t vbudecode( uint64_t *value, const uint8_t *buffer ) {
 
 static uint64_t vbiencode( uint8_t *buffer, int64_t value ) {
     /* convert sign|magnitude to magnitude|sign */
-    uint64_t nv = (uint64_t)value;
-    nv = nv & (1ull << 63) ? ~(nv << 1) : (nv << 1);
+    uint64_t nv = (uint64_t)((value >> 63) ^ (value << 1));
     /* encode unsigned */
     return vbuencode( buffer, nv );
 }
@@ -37,11 +36,11 @@ static uint64_t vbidecode( int64_t *value, const uint8_t *buffer ) {
     /* decode unsigned */
     uint64_t nv, ret = vbudecode( &nv, buffer );
     /* convert magnitude|sign to sign|magnitude */
-    *value = nv & (1) ? ~(nv >> 1) : (nv >> 1);
+    *value = ((nv >> 1) ^ -(nv & 1));
     return ret;
 }
 
-#ifdef TINYBYTE_TEST
+#ifdef TINYVBYTE_TEST
 #include <stdio.h>
 #define test(type, encfunc, decfunc, number) do { \
     type copy; \
@@ -52,7 +51,7 @@ static uint64_t vbidecode( int64_t *value, const uint8_t *buffer ) {
     decfunc( &copy, buf ); \
     printf("\r%s\n", copy == number ? "[ OK ]" : "[FAIL]"); \
 } while(0)
-void TINYBYTE_TEST() {
+void TINYVBYTE_TEST() {
     test( int64_t, vbiencode, vbidecode,  0);
     test( int64_t, vbiencode, vbidecode, -1);
     test( int64_t, vbiencode, vbidecode, +1);
