@@ -23,6 +23,7 @@
 |[tinylog.h](tinylog.h)|C|Logging utilities|
 |[tinylogger.cc](tinylogger.cc)|C++|Session logger|
 |[tinymatch.c](tinymatch.c)|C|Wildcard/pattern matching|
+|[tinymime.c](tinymime.c)|C|MIME/file-type detection|
 |[tinynow.cc](tinynow.cc)|C++|Timing utilities|
 |[tinypipe.hpp](tinypipe.hpp)|C++11|Chainable pipes|
 |[tinyprint.cc](tinyprint.cc)|C++|Comma-based printer|
