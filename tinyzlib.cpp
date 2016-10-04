@@ -1,7 +1,7 @@
-// tiny inflater. extracted from tigr (credits to Richard Mitton). @todo: remove exceptions
+// tiny zlib inflater. extracted from tigr (credits to Richard Mitton). @todo: remove exceptions
 // - rlyeh, public domain | wtrmrkrlyeh
 
-bool tinyinflate(void *out, unsigned outlen, const void *in, unsigned inlen) {
+bool tinyzlib(void *out, unsigned outlen, const void *in, unsigned inlen) {
     struct State {
         unsigned bits, count;
         const unsigned char *in, *inend;
