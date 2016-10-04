@@ -19,7 +19,6 @@
 |[tinyfsm.c](tinyfsm.c)|C|Tight FSM|
 |[tinyhexdump.c](tinyhexdump.c)|C|Hexdump viewer|
 |[tinyhuman.hpp](tinyhuman.hpp)|C++|De/humanized numbers|
-|[tinyinflater.cpp](tinyinflater.cpp)|C++|zlib inflater|
 |[tinylog.h](tinylog.h)|C|Logging utilities|
 |[tinylogger.cc](tinylogger.cc)|C++|Session logger|
 |[tinymatch.c](tinymatch.c)|C|Wildcard/pattern matching|
@@ -41,3 +40,4 @@
 |[tinyvbyte.h](tinyvbyte.h)|C|VLE encoder/decoder (vbyte)|
 |[tinywav.c](tinywav.c)|C|Forked WAV writer|
 |[tinywtf.h](tinywtf.h)|C/C++|Portable host macros|
+|[tinyzlib.cpp](tinyzlib.cpp)|C++|zlib inflater|
