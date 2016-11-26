@@ -86,7 +86,7 @@ template<>           inline const std::function<void()>& cast<std::function<void
 #ifdef TINYVARIANT_MAIN
 #include <iostream>
 #include <assert.h>
-int TINYVARIANT_MAIN() {
+void TINYVARIANT_MAIN() {
     std::cout << "sizeof(var)=" << sizeof(var) << std::endl;
 
     var digit = 42, other = "hello world";
