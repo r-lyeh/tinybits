@@ -10,7 +10,7 @@ struct bench {
 };
 #define bench if( const bench x = { __LINE__, omp_get_wtime() } ) 
 
-#ifdef TINYBENCH_MAIN
+#ifdef TINYBENCHMARK_MAIN
 int main() {
    bench {
         for( int i = 0; i < 100000000; ++i );
