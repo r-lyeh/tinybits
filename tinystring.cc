@@ -6,14 +6,12 @@
 #include <deque>
 #include <string>
 
-std::deque< std::string > tokenize( const std::string &self, const std::string &delimiters ) {
+std::deque< std::string > tokenize( const std::string &self, const char *delimiters ) {
     char map[256] = {};
-    for( const unsigned char &ch : delimiters ) {
-        map[ ch ] = '\1';
-    }
+    while( *delimiters++ ) map[ delimiters[-1] ] = '\1';
     std::deque< std::string > tokens(1);
-    for( const unsigned char &ch : self ) {
-        /**/ if( !map[ch]             ) tokens.back().push_back( char(ch) );
+    for( auto &ch : self ) {
+        /**/ if( !map[(unsigned) ch]  ) tokens.back().push_back( ch );
         else if( tokens.back().size() ) tokens.push_back( std::string() );
     }
     while( tokens.size() && !tokens.back().size() ) tokens.pop_back();
