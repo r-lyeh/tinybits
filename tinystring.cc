@@ -8,7 +8,7 @@
 
 std::deque< std::string > tokenize( const std::string &self, const char *delimiters ) {
     char map[256] = {};
-    while( *delimiters++ ) map[ delimiters[-1] ] = '\1';
+    while( *delimiters++ ) map[ (unsigned) delimiters[-1] ] = '\1';
     std::deque< std::string > tokens(1);
     for( auto &ch : self ) {
         /**/ if( !map[(unsigned) ch]  ) tokens.back().push_back( ch );
