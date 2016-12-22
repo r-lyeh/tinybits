@@ -13,6 +13,7 @@
 |[tinybsearch.cc](tinybsearch.cc)|C++|Dichotomic binary search|
 |[tinybuild.h](tinybuild.h)|C|Build macros|
 |[tinydebug.h](tinydebug.h)|C|Debug macros|
+|[tinydefer.cc](tinydefer.cc)|C++|Defer macro, Go style|
 |[tinydir.cc](tinydir.cc)|C++|Recursive directory listing|
 |[tinydual.sh.bat](tinydual.sh.bat)|Bash|Dual bash/batch file|
 |[tinyendian.c](tinyendian.c)|C|Endianness conversion|
