@@ -21,6 +21,7 @@
 |[tinyhexbase.c](tinyhexbase.c)|C|Simple binary to ascii encoder|
 |[tinyhexdump.c](tinyhexdump.c)|C|Hexdump viewer|
 |[tinyhuman.hpp](tinyhuman.hpp)|C++|De/humanized numbers|
+|[tinyini.c](tinyini.c)|C|Config parser (ini+)|
 |[tinylog.h](tinylog.h)|C|Logging utilities|
 |[tinylogger.cc](tinylogger.cc)|C++|Session logger|
 |[tinymatch.c](tinymatch.c)|C|Wildcard/pattern matching|
