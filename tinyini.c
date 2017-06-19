@@ -13,7 +13,7 @@
 //   color=             ; remove key/value(s)
 //   color=white        ; recreate key; color[1] and color[2] no longer exist
 //   []                 ; unmap section
-//   -note=keys can start with symbols (except + and ;)
+//   -note=keys may start with symbols (except plus and semicolon)
 //   -note=linefeeds are either \r, \n or \r\n.
 //   -note=utf8 everywhere.
 //
@@ -40,7 +40,7 @@ static char *ini( const char *s ) {
         else if( *s == ';' ) cut[fsm = REM] = ++s;
         else if( *s == '+' ) cut[fsm = SUB] = ++s;
         else if( *s == '=' ) cut[fsm = VAL] = ++s;
-        else if( *s > ' ' && *s <= 'z' && *s != ']' ) { cut[fsm = KEY] = cut[SUB] = end[SUB] = s; }
+        else if( *s > ' ' && *s <= 'z' && *s != ']' ) cut[fsm = KEY] = cut[SUB] = end[SUB] = s;
         else { ++s; continue; }
         /**/ if( fsm == REM ) { while(*s && *s != '\r'&& *s != '\n') ++s; }
         else if( fsm == TAG ) { while(*s && *s != '\r'&& *s != '\n'&& *s != ']') ++s; end[fsm] = s; }
@@ -65,30 +65,29 @@ static char *ini( const char *s ) {
 
 int main() {
 
-    char *kv =
-    ini(
+    char *kv = ini(
         "; line comment\n"
-        "[details]         ; section name\n"
-        "user=john         ; key and value\n"
-        "+surname=doe jr.  ; subkey and value (equals to user.surname=doe)\n"
-        "color=240         ; key[0] and value\n"
-        "color=253         ; key[1] and value\n"
-        "color=255         ; key[2] and value\n"
-        "\r\n\t "
-        "color=            ; remove key\n"
-        "color=white       ; recreate key; color[1] and color[2] no longer exist\n"
-        "[]                ; unmap section\n"
-        "-note=keys can start with symbols (except + and ;)\n"
+        "[details]          ; map section name (optional)\n"
+        "user=john          ; key and value (mapped here as details.user=john)\n"
+        "+surname=doe jr.   ; sub-key and value (mapped here as details.user.surname=doe jr.)\n"
+        "color=240          ; key and value \\\n"
+        "color=253          ; key and value |> array: color[0], color[1] and color[2]\n"
+        "color=255          ; key and value /\n"
+        "color=             ; remove key/value(s)\n"
+        "color=white        ; recreate key; color[1] and color[2] no longer exist\n"
+        "[]                 ; unmap section\n"
+        "-note=keys may start with symbols (except plus and semicolon)\n"
         "-note=linefeeds are either \r, \n or \r\n.\n"
-        "-note=keys and values are utf8 everywhere.\n"
+        "-note=utf8 everywhere.\n"
     );
 
-    for( char *iter = kv; iter[0]; ) {
-        printf("key: '%s'\n", iter); while( *iter++ );
-        printf("val: '%s'\n", iter); while( *iter++ );
+    if( kv ) {
+        for( char *iter = kv; iter[0]; ) {
+            printf("key: '%s'\n", iter); while( *iter++ );
+            printf("val: '%s'\n", iter); while( *iter++ );
+        }
+        free( kv );
     }
-
-    free( kv );
 }
 
 // see also:
