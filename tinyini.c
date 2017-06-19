@@ -36,8 +36,8 @@ static char *ini( const char *s ) {
     const char *cut[6] = {0}, *end[6] = {0};
     while( *s ) {
         while( *s && (*s == ' ' || *s == '\t' || *s == '\r' || *s == '\n') ) ++s;
-        /**/ if( *s == '[' ) cut[fsm = TAG] = ++s;
-        else if( *s == ';' ) cut[fsm = REM] = ++s;
+        /**/ if( *s == ';' ) cut[fsm = REM] = ++s;
+        else if( *s == '[' ) cut[fsm = TAG] = ++s;
         else if( *s == '+' ) cut[fsm = SUB] = ++s;
         else if( *s == '=' ) cut[fsm = VAL] = ++s;
         else if( *s > ' ' && *s <= 'z' && *s != ']' ) cut[fsm = KEY] = cut[SUB] = end[SUB] = s;
@@ -77,7 +77,7 @@ int main() {
         "color=white        ; recreate key; color[1] and color[2] no longer exist\n"
         "[]                 ; unmap section\n"
         "-note=keys may start with symbols (except plus and semicolon)\n"
-        "-note=linefeeds are either \r, \n or \r\n.\n"
+        "-note=linefeeds are either \\r, \\n or \\r\\n.\n"
         "-note=utf8 everywhere.\n"
     );
 
