@@ -24,6 +24,10 @@
 
 char *ini( const char *text );
 
+// api, alt callback version
+
+void ini_cb( const char *text, void (*yield)( const char *key, const char *value, void *userdata ), void *userdata );
+
 // impl
 
 #include <stdio.h>
@@ -61,9 +65,22 @@ static char *ini( const char *s ) {
     return map;
 }
 
-#ifdef DEMO
+static void ini_cb( const char *text, void (*yield)( const char *key, const char *value, void *userdata ), void *userdata ) {
+    char *kv = ini( text );
+    if( kv ) {
+        for( char *iter = kv; iter[0]; ) {
+            const char *key = iter; while( *iter++ );
+            const char *val = iter; while( *iter++ );
+            yield( key, val, userdata );
+        }
+        free( kv );
+    }
+}
 
-int main() {
+
+#ifdef TINYINI_DEMO
+
+void TINYINI_DEMO() {
 
     char *kv = ini(
         "; line comment\n"
@@ -85,21 +102,6 @@ int main() {
         for( char *iter = kv; iter[0]; ) {
             printf("key: '%s'\n", iter); while( *iter++ );
             printf("val: '%s'\n", iter); while( *iter++ );
-        }
-        free( kv );
-    }
-}
-
-// see also:
-// alt api, callback version
-
-void ini_cb( const char *text, void (*yield)( const char *key, const char *value, void *userdata ), void *userdata ) {
-    char *kv = ini( text );
-    if( kv ) {
-        for( char *iter = kv; iter[0]; ) {
-            const char *key = iter; while( *iter++ );
-            const char *val = iter; while( *iter++ );
-            yield( key, val, userdata );
         }
         free( kv );
     }

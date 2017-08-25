@@ -4,6 +4,7 @@
 #pragma once
 #include <string>
 
+static
 std::string tinyARC4( const std::string &text, const std::string &passkey ) {
     int sbox[256], key[256];
     std::string output;
@@ -32,7 +33,7 @@ std::string tinyARC4( const std::string &text, const std::string &passkey ) {
 #ifdef TINYARC4_MAIN
 #include <cassert>
 #include <iostream>
-int TINYARC4_MAIN( int argc, const char **argv ) {
+void TINYARC4_MAIN( int argc, const char **argv ) {
     // sample
     std::string encrypted = tinyARC4( "Hello world.", "my-password" );
     std::string decrypted = tinyARC4( encrypted, "my-password" );

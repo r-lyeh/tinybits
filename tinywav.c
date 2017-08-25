@@ -1,13 +1,9 @@
 // Tiny WAV writer: original code by jon olick, public domain
 // Floating point support + pure C version by rlyeh, public domain | wtrmrkrlyeh
 #include <stdio.h>
-int tinywav(const char *filename, short numChannels, short bitsPerSample, int sampleRateHz, const void *data, int size, int is_floating) {
+static void tinywav(FILE *fp, short numChannels, short bitsPerSample, int sampleRateHz, const void *data, int size, int is_floating) {
     short bpsamp;
     int length, bpsec;
-    FILE *fp = fopen(filename, "wb");
-    if(!fp) {
-        return 0;
-    }
     fwrite("RIFF", 1, 4, fp);
     length = size + 44 - 8;
     fwrite(&length, 1, 4, fp);
@@ -22,6 +18,4 @@ int tinywav(const char *filename, short numChannels, short bitsPerSample, int sa
     fwrite("data", 1, 4, fp);
     fwrite(&size, 1, 4, fp);
     fwrite(data, 1, size, fp);
-    fclose(fp);
-    return 1;
 }

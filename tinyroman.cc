@@ -2,7 +2,7 @@
 #include <map>
 #include <string>
 
-std::string roman( int i ) {
+std::string romanize( int i ) {
     static std::string table[] = {
         "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX",
         "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC",
@@ -21,10 +21,10 @@ std::string roman( int i ) {
 
 #include <cassert>
 int main() {
-    assert( roman(0) == "" );
-    assert( roman(10) == "X" );
-    assert( roman(1990) == "MCMXC" );
-    assert( roman(2008) == "MMVIII" );
-    assert( roman(99) == "XCIX" );
-    assert( roman(47) == "XLVII" );
+    assert( romanize(0) == "" );
+    assert( romanize(10) == "X" );
+    assert( romanize(1990) == "MCMXC" );
+    assert( romanize(2008) == "MMVIII" );
+    assert( romanize(99) == "XCIX" );
+    assert( romanize(47) == "XLVII" );
 }

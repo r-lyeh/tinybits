@@ -1,5 +1,7 @@
 // Tiny atoi() replacement. rlyeh, public domain | wtrmrkrlyeh
 #pragma once
+
+static
 int tinyatoi( const char *s ) {
     int v = 0, n = 1;
     if( s ) {
@@ -11,7 +13,7 @@ int tinyatoi( const char *s ) {
 
 #ifdef TINYATOI_MAIN
 #include <assert.h>
-int TINYATOI_MAIN() {
+void TINYATOI_MAIN() {
     assert( 1230 == tinyatoi("01230") );
     assert( -1230 == tinyatoi("-01230") );
     assert( 1230 == tinyatoi("--01230") );

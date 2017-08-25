@@ -23,7 +23,7 @@
 |[tinyhuman.hpp](tinyhuman.hpp)|C++|De/humanized numbers|
 |[tinyini.c](tinyini.c)|C|Config parser (ini+)|
 |[tinylog.h](tinylog.h)|C|Logging utilities|
-|[tinylogger.cc](tinylogger.cc)|C++|Session logger|
+|[tinylogger.hpp](tinylogger.hpp)|C++|Session logger|
 |[tinymatch.c](tinymatch.c)|C|Wildcard/pattern matching|
 |[tinymime.c](tinymime.c)|C|MIME/file-type detection|
 |[tinypipe.hpp](tinypipe.hpp)|C++11|Chainable pipes|
@@ -35,7 +35,7 @@
 |[tinytime.cc](tinytime.cc)|C++|Timing utilities|
 |[tinytodo.cc](tinytodo.cc)|C++11|TODO() macro|
 |[tinytty.c](tinytty.c)|C|Terminal utilities|
-|[tinyunit.cc](tinyunit.cc)|C++|Unit-testing|
+|[tinyunit.c](tinyunit.c)|C|Unit-testing|
 |[tinyuniso.cc](tinyuniso.cc)|C++|.iso/9960 unarchiver|
 |[tinyuntar.cc](tinyuntar.cc)|C++|.tar unarchiver|
 |[tinyunzip.cc](tinyunzip.cc)|C++|.zip unarchiver|

@@ -278,9 +278,9 @@ static const char *tinymime( const unsigned char *buf, size_t len ) {
     return ""; // invalid
 };
 
-#ifdef MAIN
+#ifdef MAIN_MIME
 #include <stdio.h>
-void MAIN( int argc, const char **argv ) {
+void MAIN_MIME( int argc, const char **argv ) {
     if( argc == 2 ) {
         FILE *fp = fopen( argv[1], "rb" );
         if( fp ) {

@@ -1,4 +1,5 @@
 // Tiny session logger. rlyeh, public domain | wtrmrkrlyeh
+#pragma once
 #include <stdio.h>
 
 #ifdef SHIPPING
@@ -31,7 +32,9 @@ struct logger {
 };
 #endif
 
+/*
 int main() {
     logger resident;
     puts("hello world");
 }
+*/

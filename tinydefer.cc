@@ -6,10 +6,10 @@ struct defer {
     ~defer() { fn(); }
 };
 
-#define MERGE_(a,b)  a##b
-#define LABEL_(a)    MERGE_(unique_name_, a)
-#define UNIQUE_NAME  LABEL_(__LINE__)
-#define defer        defer UNIQUE_NAME; UNIQUE_NAME.fn = [&]
+#define DEFER_MERGE_(a,b)  a##b
+#define DEFER_LABEL_(a)    DEFER_MERGE_(unique_name_, a)
+#define DEFER_UNIQUE_NAME  DEFER_LABEL_(__LINE__)
+#define defer        defer DEFER_UNIQUE_NAME; DEFER_UNIQUE_NAME.fn = [&]
 
 #ifdef TINYDEFER_MAIN
 #include <stdio.h>

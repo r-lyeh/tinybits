@@ -99,7 +99,7 @@ int l33t( const char *src, int slen, char *dst, int dlen ) {
 #include <fstream>
 #include <iostream>
 #include <sstream>
-int main() {
+void TINYPIPE_BUILD_DEMO() {
     std::stringstream is; is << "hello";
     pipe( is, std::cout );
 

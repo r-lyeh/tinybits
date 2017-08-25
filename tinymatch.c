@@ -8,12 +8,13 @@ static int match( const char *pattern, const char *str ) {
     return (*str == *pattern) && match(pattern+1, str+1);
 }
 
+#ifdef MATCH_DEMO
 #include <stdio.h>
-
-int main() {
+void MATCH_DEMO() {
     printf("%s\n", match("abc", "abc") ? "match!" : "not found" );
     printf("%s\n", match("abc*", "abc") ? "match!" : "not found" );
     printf("%s\n", match("*bc", "abc") ? "match!" : "not found" );
     printf("%s\n", match("*bc*", "abc") ? "match!" : "not found" );
     printf("%s\n", match("*b?d*", "abcdef") ? "match!" : "not found" );
 }
+#endif
