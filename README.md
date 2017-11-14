@@ -15,6 +15,7 @@
 |[tinydebug.h](tinydebug.h)|C|Debug macros|
 |[tinydefer.cc](tinydefer.cc)|C++|Defer macro, Go style|
 |[tinydir.cc](tinydir.cc)|C++|Recursive directory listing|
+|[tinydixy.cc](tinydixy.c)|C|Small YAML-subset config file parser|
 |[tinydual.sh.bat](tinydual.sh.bat)|Bash|Dual bash/batch file|
 |[tinyendian.c](tinyendian.c)|C|Endianness conversion|
 |[tinyfsm.c](tinyfsm.c)|C|Tight FSM|
