@@ -24,7 +24,7 @@
 
 char *ini( const char *text );
 
-// api, alt callback version
+// api, alternate callback version
 
 void ini_cb( const char *text, void (*yield)( const char *key, const char *value, void *userdata ), void *userdata );
 
@@ -53,12 +53,12 @@ static char *ini( const char *s ) {
         else if( fsm == VAL ) { while(*s && *s >= ' ' && *s <= 'z' && *s != ';') ++s; end[fsm] = s;
             while( end[fsm][-1] == ' ' ) --end[fsm];
             char buf[256] = {0}, *key = buf;
-            if( end[TAG] - cut[TAG] ) key += sprintf(key, "%.*s.", end[TAG] - cut[TAG], cut[TAG] );
-            if( end[KEY] - cut[KEY] ) key += sprintf(key,  "%.*s", end[KEY] - cut[KEY], cut[KEY] );
-            if( end[SUB] - cut[SUB] ) key += sprintf(key, ".%.*s", end[SUB] - cut[SUB], cut[SUB] );
+            if( end[TAG] - cut[TAG] ) key += sprintf(key, "%.*s.", (int)(end[TAG] - cut[TAG]), cut[TAG] );
+            if( end[KEY] - cut[KEY] ) key += sprintf(key,  "%.*s", (int)(end[KEY] - cut[KEY]), cut[KEY] );
+            if( end[SUB] - cut[SUB] ) key += sprintf(key, ".%.*s", (int)(end[SUB] - cut[SUB]), cut[SUB] );
             int reqlen = (key - buf) + 1 + (end[VAL] - cut[VAL]) + 1 + 1;
             if( (reqlen + maplen) >= mapcap ) map = realloc( map, mapcap += reqlen + 512 );
-            sprintf( map + maplen, "%.*s%c%.*s%c%c", key - buf, buf, 0, end[VAL] - cut[VAL], cut[VAL], 0, 0 );
+            sprintf( map + maplen, "%.*s%c%.*s%c%c", (int)(key - buf), buf, 0, (int)(end[VAL] - cut[VAL]), cut[VAL], 0, 0 );
             maplen += reqlen - 1;
         }
     }
@@ -100,7 +100,7 @@ void TINYINI_DEMO() {
 
     if( kv ) {
         for( char *iter = kv; iter[0]; ) {
-            printf("key: '%s'\n", iter); while( *iter++ );
+            printf("key: '%s', ", iter); while( *iter++ );
             printf("val: '%s'\n", iter); while( *iter++ );
         }
         free( kv );
