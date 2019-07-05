@@ -18,6 +18,7 @@
 |[tinydixy.c](tinydixy.c)|C|Small YAML-subset config file parser|
 |[tinydual.sh.bat](tinydual.sh.bat)|Bash|Dual bash/batch file|
 |[tinyendian.c](tinyendian.c)|C|Endianness conversion|
+|[tinyerror.c](tinyerror.c)|C|Error handling|
 |[tinyfsm.c](tinyfsm.c)|C|Tight FSM|
 |[tinyhexbase.c](tinyhexbase.c)|C|Simple binary to ascii encoder|
 |[tinyhexdump.c](tinyhexdump.c)|C|Hexdump viewer|
