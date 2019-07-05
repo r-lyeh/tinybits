@@ -6,8 +6,8 @@
 
 // utils
 
-#define err0r(rc)       err0R(rc)
-#define err0R(rc)       #rc
+#define err0r(rc)       err1r(rc)
+#define err1r(rc)       #rc
 
 #ifndef _MSC_VER
 static __thread char* error = 0;
