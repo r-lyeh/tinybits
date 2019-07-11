@@ -28,9 +28,7 @@ FILE *open_file(const char *file) {
 }
 
 int main(int argc, char **argv ) {
-    const char *file = argc > 1 ? argv[argc-1] : __FILE__;
-    printf("opening file: %s\n", file);
-    FILE *fp = open_file(file);
+    FILE *fp = open_file(__FILE__);
 
     if( !error ) {
         printf("ok\n");
