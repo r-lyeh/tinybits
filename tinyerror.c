@@ -27,7 +27,7 @@ FILE *open_file(const char *file) {
     return fp;
 }
 
-int main(int argc, char **argv ) {
+int main() {
     FILE *fp = open_file(__FILE__);
 
     if( !error ) {
