@@ -1,19 +1,19 @@
-// simple error handling api
+// simple error handling api: error(N, "description"), errorcode, errorhuman
 // - rlyeh, public domain.
 
-#define error(rc, ...)  (error = (rc) ? "Error " err0r(rc) ": " __VA_ARGS__ : 0)
-#define errorcode       (error ? atoi(error+6) : 0)
+#define error(rc, ...)   (errorhuman = !(rc) ? "No error 0":"Error -- " error_stringize(rc) ": " __VA_ARGS__)
+#define errorcode        (atoi(errorhuman+9))
 
 // utils
 
-#define err0r(rc)       err1r(rc)
-#define err1r(rc)       #rc
+#define error_stringize(rc)  error_stringiz3(rc)
+#define error_stringiz3(rc)  #rc
 
-#ifndef _MSC_VER
-static __thread char* error = 0;
-#else
-static __declspec(thread) char* error = 0;
+#if defined _MSC_VER && !defined(__thread)
+#define __thread __declspec(thread)
 #endif
+
+static __thread char* errorhuman = "No error 0";
 
 
 // -------------------
@@ -28,15 +28,15 @@ FILE *open_file(const char *file) {
 }
 
 int main() {
-    FILE *fp = open_file(__FILE__);
+    FILE *fp = open_file(__FILE__); //"missing.txt");
 
-    if( !error ) {
+    if( !errorcode ) {
         printf("ok\n");
-    }
-    if( error ) {
-        printf("%s\n", error);
     }
     if( errorcode ) {
         printf("%d\n", errorcode);
+    }
+    if( errorhuman ) {
+        printf("%s\n", errorhuman);
     }
 }
