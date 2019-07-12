@@ -1,4 +1,4 @@
-// simple error handling api: error(N, "description"), errorcode, errorhuman
+// simple error handling api: error(N, "optional description"), errorcode, errorhuman
 // - rlyeh, public domain.
 
 #define error(rc, ...)   (errorhuman = !(rc) ? "No error 0":"Error -- " error_stringize(rc) ": " __VA_ARGS__)
