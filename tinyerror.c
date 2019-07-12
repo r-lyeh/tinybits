@@ -1,8 +1,8 @@
-// simple error handling api: error(N, "optional description"), errorcode, errorhuman
+// simple error handling api: error(N, "optional description"), errorcode, errortext
 // - rlyeh, public domain.
 
-#define error(rc, ...)   (errorhuman = !(rc) ? "No error 0":"Error -- " error_stringize(rc) ": " __VA_ARGS__)
-#define errorcode        (atoi(errorhuman+9))
+#define error(rc, ...)   (errortext = !(rc) ? "No error 0":"Error -- " error_stringize(rc) ": " __VA_ARGS__)
+#define errorcode        (atoi(errortext+9))
 
 // utils
 
@@ -13,7 +13,7 @@
 #define __thread __declspec(thread)
 #endif
 
-static __thread char* errorhuman = "No error 0";
+static __thread char* errortext = "No error 0";
 
 
 // -------------------
@@ -36,7 +36,7 @@ int main() {
     if( errorcode ) {
         printf("%d\n", errorcode);
     }
-    if( errorhuman ) {
-        printf("%s\n", errorhuman);
+    if( errortext ) {
+        printf("%s\n", errortext);
     }
 }
