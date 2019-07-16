@@ -23,12 +23,12 @@ void sleep( double secs ) {
     std::this_thread::sleep_for( duration );
 }
 
-#ifdef TINYTIME_MAIN
+/*
 #include <stdio.h>
-void TINYTIME_MAIN() {
+int main() {
     double t0 = now();
     printf("%g s.\n", bench( []{ sleep(0.1234); } ) );
     double t1 = now();
     printf("%g s.\n", t1 - t0 );
 }
-#endif
+*/

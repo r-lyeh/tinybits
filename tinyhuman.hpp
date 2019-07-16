@@ -33,7 +33,7 @@ inline uint64_t dehumanize( const std::string &str ) {
     return num;
 }
 
-#ifdef TINYHUMAN_BUILD_DEMO
+/*
 #include <iostream>
 int main() {
     std::cout << __LINE__ << " " << humanize(1238) << "m" << std::endl;
@@ -51,4 +51,4 @@ int main() {
     std::cout << __LINE__ << " " << dehumanize("118tb") << std::endl;
     std::cout << __LINE__ << " " << dehumanize("118pb") << std::endl;
 }
-#endif
+*/

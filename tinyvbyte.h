@@ -40,7 +40,7 @@ static uint64_t vbidecode( int64_t *value, const uint8_t *buffer ) {
     return ret;
 }
 
-#ifdef TINYVBYTE_TEST
+/*
 #include <stdio.h>
 #define test(type, encfunc, decfunc, number) do { \
     type copy; \
@@ -51,7 +51,7 @@ static uint64_t vbidecode( int64_t *value, const uint8_t *buffer ) {
     decfunc( &copy, buf ); \
     printf("\r%s\n", copy == number ? "[ OK ]" : "[FAIL]"); \
 } while(0)
-void TINYVBYTE_TEST() {
+int main() {
     test( int64_t, vbiencode, vbidecode,  0);
     test( int64_t, vbiencode, vbidecode, -1);
     test( int64_t, vbiencode, vbidecode, +1);
@@ -76,4 +76,4 @@ void TINYVBYTE_TEST() {
     test(uint64_t, vbuencode, vbudecode, UINT32_MAX);
     test(uint64_t, vbuencode, vbudecode, UINT64_MAX);
 }
-#endif
+*/

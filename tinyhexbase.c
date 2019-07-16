@@ -31,7 +31,7 @@ void hexbase( FILE *fp, const void *ptr, int len ) {
     fprintf(fp, "%s\n", "");
 }
 
-#ifdef TEST
+/*
 #include <string.h>
 int main() {
     hexbase( stdout, "hello world", strlen("hello world") );                   // --> hello world
@@ -41,4 +41,4 @@ int main() {
     hexbase( stdout, "\1\2\3hello world", 3 + strlen("hello world") );         // --> ~01020368656c6c6f20776f726c64~
     hexbase( stdout, "\1\2\3hello world\xf0", 4 + strlen("hello world") );     // --> ~01020368656c6c6f20776f726c64f0~
 }
-#endif
+*/

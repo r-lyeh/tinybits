@@ -1,4 +1,4 @@
-// tiny wildcard/pattern matching. Based on anonymous souce code.
+// tiny wildcard/pattern matching. Based on anonymous souce code (Rob Pike's ?).
 // - rlyeh. public domain | wtrmrkrlyeh
 
 static int match( const char *pattern, const char *str ) {
@@ -8,13 +8,13 @@ static int match( const char *pattern, const char *str ) {
     return (*str == *pattern) && match(pattern+1, str+1);
 }
 
-#ifdef MATCH_DEMO
+/*
 #include <stdio.h>
-void MATCH_DEMO() {
+int main() {
     printf("%s\n", match("abc", "abc") ? "match!" : "not found" );
     printf("%s\n", match("abc*", "abc") ? "match!" : "not found" );
     printf("%s\n", match("*bc", "abc") ? "match!" : "not found" );
     printf("%s\n", match("*bc*", "abc") ? "match!" : "not found" );
     printf("%s\n", match("*b?d*", "abcdef") ? "match!" : "not found" );
 }
-#endif
+*/

@@ -12,8 +12,9 @@ struct print {
 
 #define print print(),
 
-
+/*
 int main() {
    print "hello", 123, "world";
    print "yeah";
 }
+*/

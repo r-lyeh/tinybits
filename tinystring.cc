@@ -56,8 +56,8 @@ std::string replace_all( const std::string &self, const std::string &target, con
     return s;
 }
 
+/*
 #include <assert.h>
-
 int main() {
     assert( tokenize("a/b/c/\\d\\e,f,g,", "/\\,") == (std::deque<std::string> { "a", "b", "c", "d", "e", "f", "g" }) );
     assert( split("a/b/c/\\d\\e,f,g,", "/\\,") == (std::deque<std::string> { "a", "/", "b", "/", "c", "/", "\\", "d", "\\", "e", ",", "f", ",", "g", "," }) );
@@ -66,3 +66,4 @@ int main() {
     assert( replace_all( "0cad0", "0", "abra" ) == "abracadabra" );
     assert( replace_one( "0cad0", "0", "abra" ) == "abracad0" );
 }
+*/

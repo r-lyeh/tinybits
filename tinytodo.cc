@@ -30,9 +30,11 @@ struct TODO {
 };
 #endif
 
+/*
 int main() {
     TODO( "Sep 26 2015" ); // compile error here if current date >= Sep 26 2015
     TODO( "May 19 2014" ); // compile error here if current date >= May 19 2014
     TODO( "Aug 11 2011" ); // compile error here if current date >= Aug 11 2011
     return 0;
 }
+*/

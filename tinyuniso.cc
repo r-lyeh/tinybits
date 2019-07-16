@@ -126,10 +126,10 @@ bool tinyuniso( istream &is, const FN &yield ) {
     return is.good();
 }
 
-#ifdef TINYISO_MAIN
+/*
 #include <iostream>
 #include <fstream>
-int TINYISO_MAIN( int argc, const char **argv ) {
+int main( int argc, const char **argv ) {
     if( argc <= 1 ) {
         return std::cout << "Usage: " << argv[0] << " file.iso [path]" << std::endl, -1;
     }
@@ -150,4 +150,4 @@ int TINYISO_MAIN( int argc, const char **argv ) {
     if( !read.empty() ) std::cout << read << std::endl;
     return ok;
 }
-#endif
+*/

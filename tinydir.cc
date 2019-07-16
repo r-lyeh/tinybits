@@ -37,14 +37,14 @@ bool tinydir( const char *directory, const FN &yield ) {
     return false;
 }
 
-#ifdef TINYDIR_MAIN
+/*
 #include <stdio.h>
 #include <functional>
-void TINYDIR_MAIN() {
+int main() {
     std::function<void(const char *,bool)> callback = [&]( const char *name, bool is_dir ) {
         printf( "%5s %s\n", is_dir ? "<dir>" : "", name );
         //if( is_dir ) tinydir( name, callback ); // <-- uncomment for recursive listing
     };
     return tinydir( "./", callback );
 }
-#endif
+*/

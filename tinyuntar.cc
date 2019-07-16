@@ -66,11 +66,11 @@ bool tinyuntar( istream &is, const FN &yield ) {
     return false;
 }
 
-#ifdef TINYUNTAR_MAIN
+/*
 #include <iostream>
 #include <fstream>
 #include <map>
-int TINYUNTAR_MAIN( int argc, const char **argv ) {
+int main( int argc, const char **argv ) {
     if( argc != 2 ) return std::cerr << "Usage: " << argv[0] << " archive.tar" << std::endl, -1;
     std::map<std::string, char *> dir;
     std::ifstream in(argv[1], std::ios_base::binary);
@@ -79,4 +79,4 @@ int TINYUNTAR_MAIN( int argc, const char **argv ) {
         return dir[ filename ] = (char *)malloc( size ); // processed if valid ptr, skipped if null
     } );
 }
-#endif
+*/

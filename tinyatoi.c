@@ -11,12 +11,12 @@ int tinyatoi( const char *s ) {
     return n * v;
 }
 
-#ifdef TINYATOI_MAIN
+/*
 #include <assert.h>
-void TINYATOI_MAIN() {
+int main() {
     assert( 1230 == tinyatoi("01230") );
     assert( -1230 == tinyatoi("-01230") );
     assert( 1230 == tinyatoi("--01230") );
     assert( -1230 == tinyatoi("---01230") );
 }
-#endif
+*/

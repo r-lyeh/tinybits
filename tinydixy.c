@@ -42,10 +42,8 @@ int tinydixy( const char *s, int (*yield)(const char *key, const char *val) ) {
     return num_pairs_found;
 }
 
-#ifdef TINYDIXY_DEMO
-
 // sample
-
+/*
 int puts2( const char *key, const char *val ) {
     printf("%s:'%s'\n", key, val);
     return 0;
@@ -74,5 +72,4 @@ int main() {
 
     printf("%d keys found\n", tinydixy( sample, puts2 ));
 }
-
-#endif
+*/

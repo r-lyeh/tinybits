@@ -16,8 +16,7 @@
 static __thread char* errortext = "No error 0";
 
 
-// -------------------
-
+/*
 #include <stdio.h>
 
 FILE *open_file(const char *file) {
@@ -40,3 +39,4 @@ int main() {
         printf("%s\n", errortext);
     }
 }
+*/

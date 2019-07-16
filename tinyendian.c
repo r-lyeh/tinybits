@@ -13,9 +13,9 @@ static uint16_t tole16( uint16_t x ) { return IS_BIG_ENDIAN ? swap16(x) : x; }
 static uint32_t tole32( uint32_t x ) { return IS_BIG_ENDIAN ? swap32(x) : x; }
 static uint64_t tole64( uint64_t x ) { return IS_BIG_ENDIAN ? swap64(x) : x; }
 
-#ifdef TINYENDIAN_MAIN
+/*
 #include <stdio.h>
-void TINYENDIAN_MAIN() {
+int main() {
     printf("%x\n", swap32(0x12345678) );
 }
-#endif
+*/

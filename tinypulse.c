@@ -12,6 +12,7 @@ void pulse( int *state ) {
     state[1] = state[0];
 }
 
+/*
 int main() {
     int state[2] = {0};
 
@@ -30,3 +31,4 @@ int main() {
     *state = 0;
     pulse(state);
 }
+*/

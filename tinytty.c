@@ -35,7 +35,7 @@ void tty( const char *txt ) {
     puts( txt );
 }
 
-
+/*
 int main() {
     // usage:
     printf("%s%s%s%s%s\n", green, tick, yellow, " passed", end);
@@ -44,9 +44,9 @@ int main() {
     printf("%s\n", "256 colors");
     // also:
     tty( "DECREASE WINDOW WIDTH AND RUN THE APP AGAIN! DECREASE WINDOW WIDTH AND RUN THE APP AGAIN! DECREASE WINDOW WIDTH AND RUN THE APP AGAIN! DECREASE WINDOW WIDTH AND RUN THE APP AGAIN! " );
-    /* // more tests
-    tty( "hey" );
-    printf("%s", "[test] ");
-    tty( "DECREASE WINDOW WIDTH AND RUN THE APP AGAIN! DECREASE WINDOW WIDTH AND RUN THE APP AGAIN! DECREASE WINDOW WIDTH AND RUN THE APP AGAIN! DECREASE WINDOW WIDTH AND RUN THE APP AGAIN! " );
-    */
+    // // more tests:
+    // tty( "hey" );
+    // printf("%s", "[test] ");
+    // tty( "DECREASE WINDOW WIDTH AND RUN THE APP AGAIN! DECREASE WINDOW WIDTH AND RUN THE APP AGAIN! DECREASE WINDOW WIDTH AND RUN THE APP AGAIN! DECREASE WINDOW WIDTH AND RUN THE APP AGAIN! " );
 }
+*/

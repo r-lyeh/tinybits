@@ -83,10 +83,10 @@ template<>           inline const double& cast<double>(const var &v) { return v.
 template<>           inline const std::string& cast<std::string>(const var &v) { return *v.string; }
 template<>           inline const std::function<void()>& cast<std::function<void()>>(const var &v) { return *v.callback; }
 
-#ifdef TINYVARIANT_MAIN
+/*
 #include <iostream>
 #include <assert.h>
-void TINYVARIANT_MAIN() {
+int main() {
     std::cout << "sizeof(var)=" << sizeof(var) << std::endl;
 
     var digit = 42, other = "hello world";
@@ -101,4 +101,4 @@ void TINYVARIANT_MAIN() {
     std::cout << other << std::endl;
     other();
 }
-#endif
+*/

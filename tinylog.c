@@ -16,8 +16,8 @@
 #define ERROR(...) do { time_t t = time(0); printf("%s[ERROR %.8s]%s %s:%d ", TTY("\27[31m"), 11+ctime(&t), TTY("\27[0m"), __FILE__, __LINE__); printf(__VA_ARGS__); } while(0)
 #define FATAL(...) do { time_t t = time(0); printf("%s[FATAL %.8s]%s %s:%d ", TTY("\27[35m"), 11+ctime(&t), TTY("\27[0m"), __FILE__, __LINE__); printf(__VA_ARGS__); } while(0)
 
-#ifdef TINYLOG_DEMO
-void TINYLOG_DEMO() {
+/*
+int main() {
     FATAL("Hello %d\n", 123);
     ERROR("Hello %d\n", 123);
     WARN("Hello %d\n", 123);
@@ -25,4 +25,4 @@ void TINYLOG_DEMO() {
     DEBUG("Hello %d\n", 123);
     TRACE("Hello %d\n", 123);
 }
-#endif
+*/

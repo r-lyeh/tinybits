@@ -15,9 +15,10 @@ void hexdump( FILE *fp, const void *ptr, unsigned len, int width ) {
     }
 }
 
-
+/*
 #include <string.h>
 int main() {
     const char *sample = __FILE__ "/" __TIME__ "/" __DATE__;
     hexdump( stdout, sample, strlen(sample), 16 );
 }
+*/

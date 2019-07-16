@@ -7,7 +7,7 @@
 typedef int fsm[2];
 
 
-#ifdef TINYFSM_DEMO
+/*
 #include <stdio.h>
 
 enum {
@@ -32,7 +32,7 @@ void update( fsm state ) {
     }
 }
 
-void TINYFSM_DEMO() {
+int main() {
     fsm state = {0};
 
     *state = IDLE;
@@ -50,5 +50,4 @@ void TINYFSM_DEMO() {
     *state = IDLE;
     update(state);
 }
-
-#endif
+*/

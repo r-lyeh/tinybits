@@ -11,9 +11,9 @@ struct defer {
 #define DEFER_UNIQUE_NAME  DEFER_LABEL_(__LINE__)
 #define defer        defer DEFER_UNIQUE_NAME; DEFER_UNIQUE_NAME.fn = [&]
 
-#ifdef TINYDEFER_MAIN
+/*
 #include <stdio.h>
-void TINYDEFER_MAIN() {
+int main() {
     puts("1");
 
     defer {
@@ -28,4 +28,4 @@ void TINYDEFER_MAIN() {
 
     puts("6");
 }
-#endif
+*/

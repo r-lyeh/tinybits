@@ -35,8 +35,8 @@ unsigned bsearchstr( const char **array, int numelems, const char *key ) {
     return ~0u;
 }
 
+/*
 #include <assert.h>
-
 int main() {
                       // @ [0]    [1]            [2]        [3]
     const char *dict[] = { "abc", "abracadabra", "ale hop", "all your base"};
@@ -56,3 +56,4 @@ int main() {
         assert( i == bsearchstr(dict, sizeof(dict) / sizeof(dict[0]), dict[i]) );
     }
 }
+*/

@@ -13,6 +13,7 @@ unsigned bsearch( const T &x, const container &v ) {
     return ~0u;
 }
 
+/*
 #include <cassert>
 #include <vector>
 int main() {
@@ -33,3 +34,4 @@ int main() {
         assert( v[bsearch(i,v)] == i );
     }
 }
+*/

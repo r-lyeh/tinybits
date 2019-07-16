@@ -6,11 +6,12 @@
 #define test(...)  (errno=0,++tst,err+=!(ok=!!(__VA_ARGS__))),printf("[%s] L%d %s (%s)\n",ok?" OK ":"FAIL",__LINE__,#__VA_ARGS__,strerror(errno))
 static unsigned tst=0,err=0,ok=1; static void summary(void){ suite("summary"){ printf("[%s] %d tests = %d passed + %d errors\n",err?"FAIL":" OK ",tst,tst-err,err); }; }
 
+/*
 int main() {
     atexit( summary );
-    /* orphan test */
+    // orphan test
     test(1<2);
-    /* grouped tests */
+    // grouped tests
     suite("grouped tests %d/%d", 1,1) {
         test(1<2);
         test(1<2);
@@ -20,3 +21,4 @@ int main() {
         test(1<2);
     }
 }
+*/

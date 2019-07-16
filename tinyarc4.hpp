@@ -30,10 +30,10 @@ std::string tinyARC4( const std::string &text, const std::string &passkey ) {
     return output;
 }
 
-#ifdef TINYARC4_MAIN
+/*
 #include <cassert>
 #include <iostream>
-void TINYARC4_MAIN( int argc, const char **argv ) {
+int main( int argc, const char **argv ) {
     // sample
     std::string encrypted = tinyARC4( "Hello world.", "my-password" );
     std::string decrypted = tinyARC4( encrypted, "my-password" );
@@ -45,4 +45,4 @@ void TINYARC4_MAIN( int argc, const char **argv ) {
     assert( tinyARC4("hello world", "my key") != "hello world" );
     assert( tinyARC4(tinyARC4("hello world", "my key"), "my key") == "hello world" );
 }
-#endif
+*/

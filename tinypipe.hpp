@@ -37,7 +37,7 @@ bool pipe( const istream &is, ostream &os, const std::vector< int (*)(const char
 }
 
 
-#ifdef TINYPIPE_BUILD_DEMO
+/*
 int rot13ish( const char *src, int slen, char *dst, int dlen ) {
     if( !dst ) return slen * 2; // bounds
     char *bak = dst;
@@ -99,7 +99,7 @@ int l33t( const char *src, int slen, char *dst, int dlen ) {
 #include <fstream>
 #include <iostream>
 #include <sstream>
-void TINYPIPE_BUILD_DEMO() {
+int main() {
     std::stringstream is; is << "hello";
     pipe( is, std::cout );
 
@@ -107,4 +107,4 @@ void TINYPIPE_BUILD_DEMO() {
     pipe( ifs, std::cout, { rot13ish, rot13ish } );
     pipe( ifs, std::cout, { upper, l33t, lower, numberx2, noparens } );
 }
-#endif
+*/

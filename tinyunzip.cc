@@ -129,11 +129,11 @@ bool tinyunzip( istream &is, const FN &yield ) {
     return read_end_record() && read_central_dir() && is.good();
 }
 
-#ifdef TINYUNZIP_MAIN
+/*
 #include <fstream>
 #include <iostream>
 #include <map>
-int TINYUNZIP_MAIN( int argc, const char **argv ) {
+int main( int argc, const char **argv ) {
     std::map<std::string, char *> toc;
     std::ifstream is( argc > 1 ? argv[1] : argv[0], std::ios::binary );
     return tinyunzip( is, [&]( const char *filename, int dlen, int zlen ) {
@@ -141,4 +141,4 @@ int TINYUNZIP_MAIN( int argc, const char **argv ) {
         return toc[ filename ] = (char *)malloc(dlen);
     } );
 }
-#endif
+*/

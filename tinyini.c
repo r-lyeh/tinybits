@@ -78,9 +78,8 @@ static void ini_cb( const char *text, void (*yield)( const char *key, const char
 }
 
 
-#ifdef TINYINI_DEMO
-
-void TINYINI_DEMO() {
+/*
+int main() {
 
     char *kv = ini(
         "; line comment\n"
@@ -106,5 +105,4 @@ void TINYINI_DEMO() {
         free( kv );
     }
 }
-
-#endif
+*/
