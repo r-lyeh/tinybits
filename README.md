@@ -25,6 +25,7 @@
 |[tinyhexdump.c](tinyhexdump.c)|C|Hexdump viewer|
 |[tinyhuman.hpp](tinyhuman.hpp)|C++|De/humanized numbers|
 |[tinyini.c](tinyini.c)|C|Config parser (ini+)|
+|[tinyjson5.c](tinyjson5.c)|C|JSON5/SJSON/JSON parser/writer|
 |[tinylog.h](tinylog.h)|C|Logging utilities|
 |[tinylogger.hpp](tinylogger.hpp)|C++|Session logger|
 |[tinymatch.c](tinymatch.c)|C|Wildcard/pattern matching|
