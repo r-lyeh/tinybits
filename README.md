@@ -20,6 +20,7 @@
 |[tinyendian.c](tinyendian.c)|C|Endianness conversion|
 |[tinyerror.c](tinyerror.c)|C|Error handling|
 |[tinyfsm.c](tinyfsm.c)|C|Tight FSM|
+|[tinygc.cc](tinygc.cc)|C++|Garbage collector (C++)|
 |[tinyhexbase.c](tinyhexbase.c)|C|Simple binary to ascii encoder|
 |[tinyhexdump.c](tinyhexdump.c)|C|Hexdump viewer|
 |[tinyhuman.hpp](tinyhuman.hpp)|C++|De/humanized numbers|
