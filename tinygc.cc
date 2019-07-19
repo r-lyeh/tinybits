@@ -1,134 +1,136 @@
-// tiny garbage collector (<100 LOCs)
+// tiny garbage collector (<100 LOCs). Genius code tricks by @orangeduck (see: https://github.com/orangeduck/tgc README)
 // - rlyeh, public domain.
-//
-// implementation details:
-//   mark: list of pointers that have been allocated by app.
-//   sweep: list of pointers that are still in use.
-//   gc: remove all pointers present in [mark] list that do not exist in [sweep] list.
-//   thread policy: one gc state per thread. do not mix pointers from different threads freely.
 
-// basics
-void* gc_malloc( int sz );    // allocate memory
-void  gc_free( void *ptr );   // optional free
-void  gc_use( void **ptr );   // call before use
-void  gc_unuse( void **ptr ); // call after use
-void  gc();                   // garbage collect. usually done at vsync every N seconds.
+void         gc_init(void *argc);           // pointer to argc (from main)
+void         gc_run(void);                  // mark & sweep
+void         gc_stop(void);                 // sweep
 
-// utils
-void *gc_calloc( int count, int size );
-void *gc_strcpy( const char *buf );
+void*        gc_malloc(int sz);             // allocator
+void         gc_free(void *ptr);            // optional
+char*        gc_strdup(const char *str);    // util
 
-// ----------------------------------------------------------------------------
+#define GC(type) type const // macro to raise compile-time errors when doing pointer arithmetic (++,--,+=...) on GC pointers
 
-#include <assert.h>
-#include <stdlib.h>
-#include <string.h>
-#include <set> // see also: <unordered_set>
+// ---
 
-#define gc__assert(ptr, expected) assert( (((uintptr_t)ptr) & 1) == expected ) // unused addr bit check
-#define gc__swap(ptr)            (void *)(~((uintptr_t)ptr))                  // swap bits
+#include <setjmp.h> // setjmp, jmp_buf
+#include <stdlib.h> // realloc
+#include <string.h> // memcpy, strlen
+#include <stdio.h>  // printf
+#include <set>      // std::set<>
 
-#if defined _MSC_VER && !defined __thread
-#define __thread __declspec(thread)
+#ifndef GC_REALLOC
+#define GC_REALLOC realloc
 #endif
-static __thread std::set<void*> mark, sweep;
 
-void *gc_malloc( int sz ) {
-    void *ptr = malloc(sz);
-    gc__assert(ptr, 0);
-    mark.insert(ptr);
-    return gc__swap(ptr);
+static void *gc_top = 0, *gc_min = 0, *gc_max = (void*)~0ull; // ~0ull == UINTPTR_MAX
+static std::set<void*> spawned, inuse;
+
+static void gc_mark_stack(void) {
+    void *bot = gc_top, *top = &bot, *last = 0;
+
+    for( void *p = bot<top?bot:top, *e = bot<top?top:bot; p <= e; p = (char*)p + sizeof(void*) ) {
+        void *ptr = *((void**)p);
+
+        if( ptr == last  ) continue; // already checked
+        if( ptr < gc_min ) continue; // out of spawned bounds. also, p == NULL included here
+        if( ptr > gc_max ) continue; // out of spawned bounds.
+
+        if( spawned.find(ptr) == spawned.end() ) continue; // not in gc pool
+        inuse.insert(last = ptr);
+    }
 }
-
-void gc_free( void *ptr ) { // optional
-    gc__assert(ptr, 1);
-    ptr = gc__swap(ptr);
-    free(ptr);
-    mark.erase(ptr);
-    sweep.erase(ptr);
+static void gc_mark() { // mark reachable stack pointers
+    jmp_buf env = {0};
+    void (*volatile check)(void) = gc_mark_stack;
+    setjmp(env);
+    check();
 }
+static void gc_sweep() { // sweep unreachable stack pointers
+    gc_min = (void*)~0ull, gc_max = 0; // ~0ull == UINTPTR_MAX
 
-void gc_use( void **ptr ) {
-    gc__assert(*ptr, 1);
-    *ptr = gc__swap(*ptr);
-    sweep.insert(*ptr);
-}
+    int count = 0;
+    for( auto iter = spawned.begin(); iter != spawned.end(); ) {
+        void *ptr = *iter;
+        if( ptr > gc_max ) gc_max = ptr;
+        if( ptr < gc_min ) gc_min = ptr;
 
-void gc_unuse( void **ptr ) {
-    gc__assert(*ptr, 0);
-    sweep.erase(*ptr);
-    *ptr = gc__swap(*ptr);
-}
-
-void gc() {
-    int collected = 0;
-    for( auto iter = mark.begin(); iter != mark.end(); ) {
-        if( sweep.find(*iter) == sweep.end() ) {
-            void *ptr = *iter;
-            free(ptr);
-            ++collected;
-
-            iter = mark.erase(iter);
+        bool used = inuse.find(ptr) != inuse.end();
+        if( !used ) {
+            GC_REALLOC(ptr, 0); //free
+            iter = spawned.erase( iter );
+            ++count;
         } else {
             ++iter;
         }
     }
-    printf("gc: %d pointers collected\n---\n", collected);
+    inuse.clear();
+
+    if( count ) printf("gc: %9d objects collected\n", count);
 }
 
-void *gc_calloc( int count, int size ) {
-    void *p = gc_malloc( count * size );
-    void *t = gc__swap( p );
-    memset(t, 0, count * size);
-    return p;
+void gc_init(void *argc) {
+    gc_top = argc;
 }
 
-void *gc_strcpy( const char *buf ) {
-    int l = strlen(buf);
-    void *p = gc_malloc( l + 1 );
-    void *t = gc__swap(p);
-    memcpy(t, buf, l + 1 );
-    return p;
+void gc_run() {
+    gc_mark();
+    gc_sweep();
+}
+
+void gc_stop() {
+    gc_sweep();
+}
+
+void *gc_malloc( int sz ) {
+    void *ptr = GC_REALLOC(0, sz); // malloc
+    if( ptr ) spawned.insert(ptr);
+    return ptr;
+}
+
+void gc_free( void *ptr ) {
+    if( ptr ) spawned.erase(ptr);
+    if( ptr ) GC_REALLOC(ptr, 0); // free
+}
+
+char *gc_strdup( const char *s ) {
+    int bytes = (int)strlen(s)+1;
+    return (char *)memcpy(gc_malloc(bytes), s, bytes);
 }
 
 /*
-int main() {
-    if( !puts("#1: create->collect test") ) {
-        void *p = gc_strcpy("hello world");
-        void *q = gc_strcpy("hello world");
+#include <time.h>
+#define benchmark(...) for(clock_t beg=clock(), end=beg-beg; !end; printf("" __VA_ARGS__), printf("%5.2fs\n", (end=clock()-beg) / (double)CLOCKS_PER_SEC))
 
-        gc();
+void bench() {
+    enum { FRAMES = 3, COUNT = 1000000 };
+    benchmark("%2.1fM allocs/frees", FRAMES * COUNT * 2 / 1000000.0) {
+        for( int frame = 0; frame < FRAMES; ++frame ) {
+            for( int n = 0; n < COUNT; ++n ) {
+                void *p = gc_strdup("hello world"); (void)p;
+            }
+        }
+        gc_run();
     }
+}
 
-    if( !puts("#2: create->free->collect test") ) {
-        void *p = gc_strcpy("hello world");
-        void *q = gc_strcpy("hello world");
+void demo() {
+    GC(void*) memory = gc_malloc(1024); (void)memory;     // will be collected
+    GC(char*) string = gc_strdup("hello world");          // will be collected
+    GC(void*) proper = gc_malloc(1); gc_free(proper);     // wont be collected (explicit free)
+    GC(char*) x = gc_strdup("Hi"); x[0] |= 32;            // *x++ |= 32 would raise compile-time error (thanks to GC() macro).
+    gc_run();
 
-        gc_free(p);
-        gc();
-    }
+    puts(string);
+    gc_run();
+}
 
-    if( !puts("#3: create->use->unuse->collect test") ) {
-        void *p = gc_strcpy("hello world");
-        void *q = gc_strcpy("hello world");
+int main(int argc, char **argv) {
+    gc_init(&argc); (void)argv;
 
-        gc_use(&p);
-        puts((char*)p);
-        gc_unuse(&p);
+    demo();
+    bench();
 
-        gc();
-    }
-
-    if( !puts("#4: create->use->collect->unuse->collect test") ) {
-        void *p = gc_strcpy("hello world");
-        void *q = gc_strcpy("hello world");
-
-        gc_use(&p);
-        puts((char*)p);
-        gc();
-        gc_unuse(&p);
-
-        gc();
-    }
+    gc_stop();
 }
 */
