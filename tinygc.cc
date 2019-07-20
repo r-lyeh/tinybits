@@ -9,7 +9,8 @@ void*        gc_malloc(int sz);             // allocator
 void         gc_free(void *ptr);            // optional
 char*        gc_strdup(const char *str);    // util
 
-#define GC(type) type const // macro to raise compile-time errors when doing pointer arithmetic (++,--,+=...) on GC pointers
+// helper macro for sane stack backtracking of our allocated pointers: raises errors on pointer arithmetics.
+#define GC(type) type const 
 
 // ---
 
@@ -17,27 +18,29 @@ char*        gc_strdup(const char *str);    // util
 #include <stdlib.h> // realloc
 #include <string.h> // memcpy, strlen
 #include <stdio.h>  // printf
+#include <stdint.h> // uintptr_t, UINTPTR_MAX
 #include <set>      // std::set<>
 
 #ifndef GC_REALLOC
 #define GC_REALLOC realloc
 #endif
 
-static void *gc_top = 0, *gc_min = 0, *gc_max = (void*)~0ull; // ~0ull == UINTPTR_MAX
-static std::set<void*> spawned, inuse;
+static void *gc_top = 0, *gc_min = 0, *gc_max = (void*)UINTPTR_MAX;
+static std::set<void*> gc_spawned, gc_inuse;
 
 static void gc_mark_stack(void) {
     void *bot = gc_top, *top = &bot, *last = 0;
 
-    for( void *p = bot<top?bot:top, *e = bot<top?top:bot; p <= e; p = (char*)p + sizeof(void*) ) {
+    for( void *p = bot<top?bot:top, *e = bot<top?top:bot; p < e; p = (char*)p + sizeof(void*) ) {
         void *ptr = *((void**)p);
 
         if( ptr == last  ) continue; // already checked
-        if( ptr < gc_min ) continue; // out of spawned bounds. also, p == NULL included here
-        if( ptr > gc_max ) continue; // out of spawned bounds.
+        if( ptr < gc_min ) continue; // out of gc_spawned bounds. also, ptr == NULL check included here
+        if( ptr > gc_max ) continue; // out of gc_spawned bounds.
+        if( (uintptr_t)ptr & 0x7 ) continue; // 64-bit unaligned (not a pointer).
 
-        if( spawned.find(ptr) == spawned.end() ) continue; // not in gc pool
-        inuse.insert(last = ptr);
+        if( gc_spawned.find(ptr) == gc_spawned.end() ) continue; // not in gc pool
+        gc_inuse.insert(last = ptr);
     }
 }
 static void gc_mark() { // mark reachable stack pointers
@@ -47,24 +50,25 @@ static void gc_mark() { // mark reachable stack pointers
     check();
 }
 static void gc_sweep() { // sweep unreachable stack pointers
-    gc_min = (void*)~0ull, gc_max = 0; // ~0ull == UINTPTR_MAX
+    gc_min = (void*)UINTPTR_MAX, gc_max = 0;
 
     int count = 0;
-    for( auto iter = spawned.begin(); iter != spawned.end(); ) {
-        void *ptr = *iter;
+    for( auto iter = gc_spawned.begin(); iter != gc_spawned.end(); ) {
+        void *ptr = *iter; // khash: void **p = gc_spawned.exist(iter); if (!p) { ++iter;  continue; } void *ptr = *p;
+
         if( ptr > gc_max ) gc_max = ptr;
         if( ptr < gc_min ) gc_min = ptr;
 
-        bool used = inuse.find(ptr) != inuse.end();
+        bool used = gc_inuse.find(ptr) != gc_inuse.end();
         if( !used ) {
             GC_REALLOC(ptr, 0); //free
-            iter = spawned.erase( iter );
+            iter = gc_spawned.erase( iter );
             ++count;
         } else {
             ++iter;
         }
     }
-    inuse.clear();
+    gc_inuse.clear();
 
     if( count ) printf("gc: %9d objects collected\n", count);
 }
@@ -72,38 +76,39 @@ static void gc_sweep() { // sweep unreachable stack pointers
 void gc_init(void *argc) {
     gc_top = argc;
 }
-
 void gc_run() {
     gc_mark();
     gc_sweep();
 }
-
 void gc_stop() {
     gc_sweep();
 }
 
 void *gc_malloc( int sz ) {
     void *ptr = GC_REALLOC(0, sz); // malloc
-    if( ptr ) spawned.insert(ptr);
+    if( ptr ) gc_spawned.insert(ptr);
     return ptr;
 }
-
 void gc_free( void *ptr ) {
-    if( ptr ) spawned.erase(ptr);
+    if( ptr ) gc_spawned.erase(ptr);
     if( ptr ) GC_REALLOC(ptr, 0); // free
 }
-
 char *gc_strdup( const char *s ) {
     int bytes = (int)strlen(s)+1;
     return (char *)memcpy(gc_malloc(bytes), s, bytes);
 }
 
 /*
+#ifdef _MSC_VER
+#include <omp.h>
+#define benchmark(...) for(double end=-omp_get_wtime(); end<=0; printf("" __VA_ARGS__), printf(" %5.2fs\n", end+=omp_get_wtime()))
+#else
 #include <time.h>
-#define benchmark(...) for(clock_t beg=clock(), end=beg-beg; !end; printf("" __VA_ARGS__), printf("%5.2fs\n", (end=clock()-beg) / (double)CLOCKS_PER_SEC))
+#define benchmark(...) for(clock_t beg=clock(), end=beg-beg; !end; printf("" __VA_ARGS__), printf(" %5.2fs\n", (end=clock()-beg) / (double)CLOCKS_PER_SEC))
+#endif
 
 void bench() {
-    enum { FRAMES = 3, COUNT = 1000000 };
+    enum { FRAMES = 30, COUNT = 1000000 };
     benchmark("%2.1fM allocs/frees", FRAMES * COUNT * 2 / 1000000.0) {
         for( int frame = 0; frame < FRAMES; ++frame ) {
             for( int n = 0; n < COUNT; ++n ) {
@@ -133,4 +138,14 @@ int main(int argc, char **argv) {
 
     gc_stop();
 }
+
+// benchmark results, 60 million ops:
+// 11.02s spp::sparse_hash_set<T>          #include "sparsepp/spp.h"
+// 13.71s std::set<T>                      #include <set>
+// 21.26s phmap::flat_hash_set<T>          #include "parallel-hashmap/phmap.h"
+// 21.57s phmap::parallel_flat_hash_set<T> #include "parallel-hashmap/phmap.h"
+// 22.12s klib::KHash<T, std::hash<T>>     #include "khash.hpp"
+// 29.01s std::unordered_set<T>            #include <unordered_set>
+// 41.38s phmap::parallel_node_hash_set<T> #include "parallel-hashmap/phmap.h"
+// 42.48s phmap::node_hash_set<T>          #include "parallel-hashmap/phmap.h"
 */
