@@ -1,8 +1,10 @@
 // tinydefer, Go style
 // - rlyeh, public domain.
 
+#include <functional>
+
 struct defer {
-    void (*fn)();
+    std::function<void()> fn;
     ~defer() { fn(); }
 };
 
