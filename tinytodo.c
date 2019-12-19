@@ -27,6 +27,5 @@ int main() {
     TODO( "Aug 11 2011: Finish prototype. Warn if current date >= Aug 11 2011" );
     TODO( "May 19 2014: Finish gameplay. Warn if current date >= May 19 2014" );
     TODO( "Sep 26 2015: Finish QA. Warn if current date >= Sep 26 2015" );
-    return 0;
 }
 */
