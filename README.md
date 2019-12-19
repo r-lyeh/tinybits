@@ -7,17 +7,17 @@
 |Snippet|Language|Domain|
 |:------|:-------|:-----|
 |[tinyarc4.hpp](tinyarc4.hpp)|C++|ARC4 stream cypher|
-|[tinyatoi.c](tinyatoi.c)|C|atoi() replacement|
+|[tinyatoi.c](tinyatoi.c)|C|atoi() implementation|
 |[tinybenchmark.hpp](tinybenchmark.hpp)|C++|Benchmark code|
 |[tinybsearch.c](tinybsearch.c)|C|Dichotomic binary search|
 |[tinybsearch.cc](tinybsearch.cc)|C++|Dichotomic binary search|
 |[tinybuild.h](tinybuild.h)|C|Build macros|
 |[tinydebug.h](tinydebug.h)|C|Debug macros|
 |[tinydefer.cc](tinydefer.cc)|C++|Defer macro, Go style|
-|[tinydir.cc](tinydir.cc)|C++|Recursive directory listing|
+|[tinydir.cc](tinydir.cc)|C++|Directory listing|
 |[tinydixy.c](tinydixy.c)|C|Small YAML-subset config file parser|
 |[tinydual.sh.bat](tinydual.sh.bat)|Bash|Dual bash/batch file|
-|[tinyendian.c](tinyendian.c)|C|Endianness conversion|
+|[tinyendian.c](tinyendian.c)|C|Endianness conversions|
 |[tinyerror.c](tinyerror.c)|C|Error handling|
 |[tinyfsm.c](tinyfsm.c)|C|Tight FSM|
 |[tinygc.cc](tinygc.cc)|C++|Garbage collector (C++)|
@@ -35,16 +35,16 @@
 |[tinypulse.c](tinypulse.c)|C|Digital pulses|
 |[tinyroman.cc](tinyroman.cc)|C++|Integer to roman literals|
 |[tinystring.cc](tinystring.cc)|C++|String utilities|
-|[tinytga.c](tinytga.c)|C|Forked TGA writer|
+|[tinytga.c](tinytga.c)|C|TGA writer (fork)|
 |[tinytime.cc](tinytime.cc)|C++|Timing utilities|
-|[tinytodo.cc](tinytodo.cc)|C++11|TODO() macro|
+|[tinytodo.cc](tinytodo.c)|C|TODO() macro|
 |[tinytty.c](tinytty.c)|C|Terminal utilities|
 |[tinyunit.c](tinyunit.c)|C|Unit-testing|
 |[tinyuniso.cc](tinyuniso.cc)|C++|.iso/9960 unarchiver|
 |[tinyuntar.cc](tinyuntar.cc)|C++|.tar unarchiver|
 |[tinyunzip.cc](tinyunzip.cc)|C++|.zip unarchiver|
 |[tinyvariant.cc](tinyvariant.cc)|C++|Variant class|
-|[tinyvbyte.h](tinyvbyte.h)|C|VLE encoder/decoder (vbyte)|
-|[tinywav.c](tinywav.c)|C|Forked WAV writer|
+|[tinyvbyte.h](tinyvbyte.h)|C|vbyte encoder/decoder (VLE)|
+|[tinywav.c](tinywav.c)|C|WAV writer (fork)|
 |[tinywtf.h](tinywtf.h)|C/C++|Portable host macros|
 |[tinyzlib.cpp](tinyzlib.cpp)|C++|zlib inflater|
