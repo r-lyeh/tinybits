@@ -37,7 +37,7 @@
 |[tinystring.cc](tinystring.cc)|C++|String utilities|
 |[tinytga.c](tinytga.c)|C|TGA writer (fork)|
 |[tinytime.cc](tinytime.cc)|C++|Timing utilities|
-|[tinytodo.cc](tinytodo.c)|C|TODO() macro|
+|[tinytodo.c](tinytodo.c)|C|TODO() macro|
 |[tinytty.c](tinytty.c)|C|Terminal utilities|
 |[tinyunit.c](tinyunit.c)|C|Unit-testing|
 |[tinyuniso.cc](tinyuniso.cc)|C++|.iso/9960 unarchiver|
