@@ -34,7 +34,8 @@
 |[tinyprint.cc](tinyprint.cc)|C++|Comma-based printer|
 |[tinypulse.c](tinypulse.c)|C|Digital pulses|
 |[tinyroman.cc](tinyroman.cc)|C++|Integer to roman literals|
-|[tinystring.cc](tinystring.cc)|C++|String utilities|
+|[tinystring.c](tinystring.c)|C|C string library|
+|[tinystring.cc](tinystring.cc)|C++|C++ string utilities|
 |[tinytga.c](tinytga.c)|C|TGA writer (fork)|
 |[tinytime.cc](tinytime.cc)|C++|Timing utilities|
 |[tinytodo.c](tinytodo.c)|C|TODO() macro|
