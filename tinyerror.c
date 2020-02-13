@@ -31,7 +31,7 @@ static __thread char* ERROR = 0;
 int derefence(int *ptr) {
     if(ptr) return OK(*ptr);
     return ERROR(0, "404: Cannot deference pointer [%p]", ptr); // errorcode + variable message (ideal)
-    return ERROR(0, "Cannot deference pointer [%p]", ptr);      // variable message (no errorcode)
+    return ERROR(0, "Cannot deference pointer [%p]", ptr);      // dynamic message (no errorcode)
     return ERROR(0, "Cannot deference pointer");                // fixed message (no errorcode)
     return ERROR(0);                                            // (no message) (no errorcode)
 }
