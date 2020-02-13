@@ -16,16 +16,16 @@
 #endif
 
 #define OK(retval)         (ERROR = (char*)0, (retval))
-#define ERROR(retval, ...) (ERROR_LOG(""__VA_ARGS__), ERROR = (char*)"Error: " #__VA_ARGS__ " (@" __FUNCTION__ " " __FILE__ ":" ERR0R(__LINE__) ") ", (retval))
+#define ERROR(retval, ...) (ERROR_LOG("" __VA_ARGS__), ERROR = (char*)"Error: " #__VA_ARGS__ " (@" __FUNCTION__ " " __FILE__ ":" ERR0R(__LINE__) ") ", (retval))
 #define ERR0R(rc)           ERRoR(rc)
 #define ERRoR(rc)           #rc
 
-#  if  defined _MSC_VER && !defined(__thread)
-#define __thread __declspec(thread)
-#elif !defined _MSC_VER && !defined __FUNCTION__
+#  ifdef __GNUC__
 #define __FUNCTION__ ""
-#endif
 static __thread char* ERROR = 0;
+#else // _MSC_VER
+static __declspec(thread) char* ERROR = 0;
+#endif
 
 #if 0 // demo
 int derefence(int *ptr) {
