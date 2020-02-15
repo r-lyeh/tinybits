@@ -7,6 +7,7 @@
 |Snippet|Language|Domain|
 |:------|:-------|:-----|
 |[tinyarc4.hpp](tinyarc4.hpp)|C++|ARC4 stream cypher|
+|[tinyassert.c](tinyassert.c)|C/C++|Old assert() macro with new tricks|
 |[tinyatoi.c](tinyatoi.c)|C|atoi() implementation|
 |[tinybenchmark.hpp](tinybenchmark.hpp)|C++|Benchmark code|
 |[tinybsearch.c](tinybsearch.c)|C|Dichotomic binary search|
