@@ -33,12 +33,12 @@
 
 #define LOG(...) do { \
     static char must_log = -1; \
-    static enum { undefined=-1, restore=0, r=31,g,y,b,p,t,w } color = undefined; \
+    static enum { undefined=-1, restore=0, r=31,g,y,b,p,t,w,inv=0x80 } color = undefined; \
     char buf[2048]; snprintf(buf, 2048, "" __VA_ARGS__); \
     if( color == undefined ) { \
         LOG_ENABLE_ANSI(); \
         char low[2048]; int i; for(i=0;buf[i];++i) low[i] = 32|buf[i]; low[i]='\0'; \
-        /**/ if( strstr(low,"fatal")|| strstr(low,"panic") || strstr(low,"assert") ) color=r,must_log=1; \
+        /**/ if( strstr(low,"fatal")|| strstr(low,"panic") || strstr(low,"assert") ) color=r|inv,must_log=1; \
         else if( strstr(low,"fail") || strstr(low,"error") ) color=r; \
         else if( strstr(low,"warn") || strstr(low,"alert") ) color=y; /*beware,caution*/ \
         else if( strstr(low,"info") || strstr(low,"succe") ) color=g; /*ok, no error*/ \
@@ -50,10 +50,11 @@
             must_log = (unsigned)((z ^ (z >> 31)) % 100) < LOG_LEVEL; } } \
     if( must_log ) { \
         double timer = LOG_TIMER(); \
-        if(timer>0)fprintf(stderr, "\033[%dm%07.3fs %s (%s:%d)\n", color, timer, buf, __FILE__, __LINE__); \
-        else       fprintf(stderr, "\033[%dm%s (%s:%d)\n", color, buf, __FILE__, __LINE__); \
-        if(color == r) LOG_PRINT_STACK(); \
-        fprintf(stderr, "\033[%dm", restore); } \
+        if(color&0x80) fprintf(stderr, "\033[7m"); \
+        if(timer>0)fprintf(stderr, "\033[%dm%07.3fs %s (%s:%d)", color&0x7f, timer, buf, __FILE__, __LINE__); \
+        else       fprintf(stderr, "\033[%dm%s (%s:%d)", color&0x7f, buf, __FILE__, __LINE__); \
+        fprintf(stderr, "\033[%dm\n", restore); \
+        if(color&0x7f == r) LOG_PRINT_STACK(); } \
 } while(0)
 
 #if 0 // demo
