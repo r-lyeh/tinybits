@@ -53,11 +53,11 @@
 
 #if 0 // demo
 int main() {
-    LOG("Test 1 - a normal message: hello world %d", 123);
-    LOG("Test 2 - a trace message");
-    LOG("Test 3 - a debug message");
-    LOG("Test 4 - a info message");
-    LOG("Test 5 - a warning message");
-    LOG("Test 6 - a error message (errors are always printed, despite LOG_LEVEL var)");
+    LOG("Test 1 - normal message: hello world %d", 123);
+    LOG("Test 2 - trace message");
+    LOG("Test 3 - debug message");
+    LOG("Test 4 - info message");
+    LOG("Test 5 - warning message");
+    LOG("Test 6 - error message (errors are always printed, despite LOG_LEVEL var)");
 }
 #endif
