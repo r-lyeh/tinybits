@@ -3,7 +3,7 @@
 //
 // - [x] colors based on content.
 // - [x] no logging categories. throughput flood configurable by percentage (see LOG_LEVEL var).
-// - [x] print fatal errors always. with optional callstack (see LOG_PRINT_STACK var).
+// - [x] print fatal errors always. with optional callstack (see LOG_PRINT_STACK macro).
 
 #pragma once
 #include <stdio.h>
