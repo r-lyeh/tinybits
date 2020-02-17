@@ -51,7 +51,7 @@
         fprintf(stderr, "%s", colors[base]); /*restore color*/ } \
 } while(0)
 
-#if 1 // demo
+#if 0 // demo
 int main() {
     LOG("Test 1 - normal message: hello world %d", 123);
     LOG("Test 2 - trace message");
