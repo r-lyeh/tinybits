@@ -34,12 +34,12 @@
     char buf[2048]; snprintf(buf, 2048, "" __VA_ARGS__); \
     if( color == undefined ) { \
         char low[2048]; int i; for(i=0;buf[i];++i) low[i] = 32|buf[i]; low[i]='\0'; \
-        /**/ if( strstr(low,"fatal")|| strstr(low,"panic") ) color=r,must_log=1; \
+        /**/ if( strstr(low,"fatal")|| strstr(low,"panic") || strstr(low,"assert") ) color=r,must_log=1; \
         else if( strstr(low,"fail") || strstr(low,"error") ) color=r; \
         else if( strstr(low,"warn") || strstr(low,"alert") ) color=y; /*beware,caution*/ \
         else if( strstr(low,"info") || strstr(low,"succe") ) color=g; /*ok, no error*/ \
-        else if( strstr(low,"debug") ) color=t; \
-        else if( strstr(low,"trace") ) color=p; \
+        else if( strstr(low,"debug") || strstr(low,"test") ) color=t; \
+        else if( strstr(low,"trace") || strstr(low,"verbose") ) color=p; \
         if( must_log < 0 ) { /* original splitmix64 by Sebastiano Vigna (CC0)*/ \
             uint64_t z = (__LINE__ + __COUNTER__ + UINT64_C(0x9E3779B97F4A7C15)); \
             z = (z ^ (z >> 30)) * UINT64_C(0xBF58476D1CE4E5B9); \
@@ -51,13 +51,14 @@
         fprintf(stderr, "%s", colors[base]); /*restore color*/ } \
 } while(0)
 
-#if 0 // demo
+#if 1 // demo
 int main() {
     LOG("Test 1 - normal message: hello world %d", 123);
     LOG("Test 2 - trace message");
     LOG("Test 3 - debug message");
     LOG("Test 4 - info message");
     LOG("Test 5 - warning message");
-    LOG("Test 6 - error message (errors are always printed, despite LOG_LEVEL var)");
+    LOG("Test 6 - error message");
+    LOG("Test 7 - fatal error message (fatal errors are always printed, despite LOG_LEVEL var)");
 }
 #endif
