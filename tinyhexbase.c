@@ -1,5 +1,5 @@
 // hexBASE 
-// Very simple binary to ascii encoding. 0 to 2+50% bytes overhead (worst case).
+// Very simple binary to ascii encoding. 0 to 2+100% bytes overhead (worst case)
 //
 // Specification:
 // if char in [32..126] range then print "%c", char ('~' escaped as "~~"),
